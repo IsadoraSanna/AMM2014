@@ -48,18 +48,18 @@ class UserFactory {
         }
 
         // cerco prima nella tabella clienti
-        $query = "select 
-            id as cliente_id,
-            nome as cliente_nome,
-            cognome as cliente_cognome,
-            via as cliente_via,
-            civico as cliente_civico,               
-            citta as cliente_citta,
-            cap as cliente_cap,
-            telefono as cliente_telefono,
-            username as cliente_username,
-            password as cliente_password,
-            from pizzeria.clienti where username = ? and password = ?";
+        $query = "SELECT 
+            clienti.id cliente_id,
+            clienti.nome cliente_nome,
+            clienti.cognome cliente_cognome,
+            clienti.via cliente_via,
+            clienti.civico cliente_civico,               
+            clienti.citta cliente_citta,
+            clienti.cap cliente_cap,
+            clienti.telefono cliente_telefono,
+            clienti.username cliente_username,
+            clienti.password cliente_password,
+            FROM `clienti` WHERE  `username` =  ? AND  `password` =  ?";
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
         if (!$stmt) {
@@ -404,16 +404,15 @@ class UserFactory {
 
         $row = array();
         $bind = $stmt->bind_result(
-                $row['addettoOrdini_id'], 
-                $row['addettoOrdini_nome'], 
-                $row['addettoOrdini_cognome'], 
-                $row['addettoOrdini_citta'],
-                $row['addettoOrdini_cap'],
-                $row['addettoOrdini_via'],
-                $row['addettoOrdini_civico'],
-                $row['addettoOrdini_username'], 
-                $row['addettoOrdini_password'], 
-                $row['dipartimenti_id']);
+                $row['cliente_id'], 
+                $row['cliente_nome'], 
+                $row['cliente_cognome'], 
+                $row['cliente_citta'],
+                $row['cliente_cap'],
+                $row['cliente_via'],
+                $row['cliente_civico'],
+                $row['cliente_username'], 
+                $row['cliente_password']);
         if (!$bind) {
             error_log("[caricaClienteDaStmt] impossibile" .
                     " effettuare il binding in output");
