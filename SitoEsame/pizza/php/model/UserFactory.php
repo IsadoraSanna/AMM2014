@@ -49,16 +49,16 @@ class UserFactory {
 
         // cerco prima nella tabella clienti
         $query = "SELECT 
-            clienti.id cliente_id,
-            clienti.nome cliente_nome,
-            clienti.cognome cliente_cognome,
-            clienti.via cliente_via,
-            clienti.civico cliente_civico,               
-            clienti.citta cliente_citta,
-            clienti.cap cliente_cap,
-            clienti.telefono cliente_telefono,
-            clienti.username cliente_username,
-            clienti.password cliente_password,
+            id cliente_id,
+            nome cliente_nome,
+            cognome cliente_cognome,
+            via cliente_via,
+            civico cliente_civico,               
+            citta cliente_citta,
+            cap cliente_cap,
+            telefono cliente_telefono,
+            username cliente_username,
+            password cliente_password
             FROM `clienti` WHERE  `username` =  ? AND  `password` =  ?";
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
@@ -94,7 +94,7 @@ class UserFactory {
                cap as addettoOrdini_cap,
                telefono as addettoOrdini_telefono,
                username as addettoOrdini_username,
-               password as addettoOrdini_password,            
+               password as addettoOrdini_password
                from pizzeria.addettoOrdini where username = ? and password = ?";
 
         $stmt = $mysqli->stmt_init();
@@ -371,6 +371,7 @@ class UserFactory {
                 $row['addettoOrdini_cap'],
                 $row['addettoOrdini_via'],
                 $row['addettoOrdini_civico'],
+                $row['addettoOrdini_telefono'],
                 $row['addettoOrdini_username'], 
                 $row['addettoOrdini_password'], 
                 $row['dipartimenti_id']);
@@ -411,6 +412,7 @@ class UserFactory {
                 $row['cliente_cap'],
                 $row['cliente_via'],
                 $row['cliente_civico'],
+                $row['cliente_telefono'],
                 $row['cliente_username'], 
                 $row['cliente_password']);
         if (!$bind) {
