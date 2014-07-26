@@ -1,0 +1,143 @@
+    body {
+        background-color: #f4f6e2;
+        font: 13px/20px "Open Sans",Arial,sans-serif;
+
+    }
+    header {
+        background-image: url('../images/rayLogo.gif');
+        background-repeat: no-repeat;
+        background-color: #990000;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        height: 122px;
+        width: 900px;
+        box-shadow: 0 0 10px rgba(0,0,0,.2);
+
+    }
+
+    #header{       
+            background-repeat: no-repeat;
+            background-position: center left;
+            padding-left: 20px;
+            padding-right: 20px;        
+    }
+    
+        #page {
+        background-image: url('../images/pageBG.png');
+        background-repeat: repeat-x;
+        width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+        margin-bottom:25px;
+        box-shadow: 0 0 10px rgba(0,0,0,.2);
+
+    }
+    
+    #menu{
+        background-color: #990000;
+        margin-top: 20px;
+        height: 50px;
+        display: inline-block;
+        color: white;
+        list-style: none;
+        position: static;
+
+    }
+
+
+    #menu ul li{
+        position: relative;
+        display: inline-block;
+
+    }
+
+    #menu a:link, #menu a:visited{
+        color: white;
+    }
+    
+
+    #content {
+        margin-top: 40px;
+        margin-left: 21%;
+        margin-right: 21%;
+        padding-bottom: 10px;
+        padding-left: 20%;
+        min-height: 500px;
+        position: static;
+    }
+    
+    #sidebar1{
+    margin-top: 25px;
+    float: left;
+    width: 250px;    
+    font-size: 13px;
+    position: static;
+    }
+    
+    #footer{
+    background-color: #990000;
+    padding: 10px;
+    padding-bottom: 10px;
+    color: white;
+    display: block; 
+    margin: auto; 
+    margin-top: 10px;
+    text-align: center;
+    }
+    
+    .validator{
+        text-align: center;
+        padding-bottom: 5px;
+    }
+    .social p{
+        margin: 10px;
+        float: left;
+    }
+
+    p.logout a:link, p.logout a:visited{
+        padding-left: 18px;
+    }
+    
+    p.logout{
+        background: url('../images/logout.png') no-repeat left center;
+    }
+    
+ /* social bar */
+
+    .social{
+        width: 100%;
+    }
+
+    .social ul{
+        display: block;
+        float: right;
+        margin-right: 10px;
+    }
+
+    .social ul li{
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        overflow: hidden;
+
+    }
+
+    .social ul li a:link{
+        color: transparent;
+    }
+
+    #facebook{
+        background-image: url('../images/fb.png');
+        background-repeat: no-repeat;
+    }
+
+    #twitter{
+        background-image: url('../images/twitter.png');
+        background-repeat: no-repeat;
+    }
+
+    #linkedin{
+        background-image: url('../images/linkedin.png');
+        background-repeat: no-repeat;
+    }
