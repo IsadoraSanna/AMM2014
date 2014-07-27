@@ -48,22 +48,7 @@ class UserFactory {
         }
 
         // cerco prima nella tabella clienti
-<<<<<<< HEAD
         $query = "SELECT * FROM clienti WHERE  username =  ? AND  password =  ?";
-=======
-        $query = "SELECT 
-            id cliente_id,
-            nome cliente_nome,
-            cognome cliente_cognome,
-            via cliente_via,
-            civico cliente_civico,               
-            citta cliente_citta,
-            cap cliente_cap,
-            telefono cliente_telefono,
-            username cliente_username,
-            password cliente_password
-            FROM `clienti` WHERE  `username` =  ? AND  `password` =  ?";
->>>>>>> e48baa7df3174836d3fc22a60c85995ba660ad18
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
         if (!$stmt) {
@@ -88,22 +73,7 @@ class UserFactory {
         }
 
         // ora cerco un docente
-<<<<<<< HEAD
         $query = "select * from addettoOrdini where username = ? and password = ?";
-=======
-        $query = "select
-               id as addettoOrdini_id,
-               nome as addettoOrdini_nome,
-               cognome as addettoOrdini_cognome,
-               via as addettoOrdini_via,
-               civico as addettoOrdini_civico,               
-               citta as addettoOrdini_citta,
-               cap as addettoOrdini_cap,
-               telefono as addettoOrdini_telefono,
-               username as addettoOrdini_username,
-               password as addettoOrdini_password
-               from pizzeria.addettoOrdini where username = ? and password = ?";
->>>>>>> e48baa7df3174836d3fc22a60c85995ba660ad18
 
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
@@ -440,44 +410,7 @@ class UserFactory {
      * @param mysqli_stmt $stmt
      * @return null
      */
-<<<<<<< HEAD
     
-=======
-    private function caricaClienteDaStmt(mysqli_stmt $stmt) {
-
-        if (!$stmt->execute()) {
-            error_log("[caricaClienteDaStmt] impossibile" .
-                    " eseguire lo statement");
-            return null;
-        }
-
-        $row = array();
-        $bind = $stmt->bind_result(
-                $row['cliente_id'], 
-                $row['cliente_nome'], 
-                $row['cliente_cognome'], 
-                $row['cliente_citta'],
-                $row['cliente_cap'],
-                $row['cliente_via'],
-                $row['cliente_civico'],
-                $row['cliente_telefono'],
-                $row['cliente_username'], 
-                $row['cliente_password']);
-        if (!$bind) {
-            error_log("[caricaClienteDaStmt] impossibile" .
-                    " effettuare il binding in output");
-            return null;
-        }
-
-        if (!$stmt->fetch()) {
-            return null;
-        }
-
-        $stmt->close();
-
-        return self::creaClienteDaArray($row);
-    }
->>>>>>> e48baa7df3174836d3fc22a60c85995ba660ad18
     
     /**
      * Cerca uno studente per id
