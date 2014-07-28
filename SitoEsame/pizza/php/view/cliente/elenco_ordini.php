@@ -22,7 +22,7 @@
                     <? if($ordine->getDomicilio() == "s"){?> <td>si</td> <? } else {?> <td>no</td> <? } ?>                 
                     <td><?= $ordine->getStato() ?></td>
                     <td><?= $ordine->getPrezzo() ?></td>
-                    <td><a href="cliente/veicoli?cmd=prenota&veicolo=<?= $ordine->getId() ?>" title="dettaglio_ordine">
+                    <td><a href="cliente/ordini?cmd=dettaglio&ordine=<?= $ordine->getId() ?>" title="dettaglio_ordine">
                     <img src="../images/dettaglio.png" alt="dettaglio ordine"></a></td>                    
                 </tr>
                 <?php

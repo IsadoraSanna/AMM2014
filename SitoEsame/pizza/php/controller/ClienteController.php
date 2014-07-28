@@ -139,7 +139,14 @@ class ClienteController extends BaseController {
                         }        
                         $this->showHomeUtente($vd);
                         break;
-                    
+                        
+                    case 'dettaglio':
+                        $ordineId = filter_var($request['ordine'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+                        $ordine = OrdineFactory::instance()->getOrdine($ordineId);
+                        $vd->setSottoPagina('dettaglio_ordine');
+                        $this->showHomeCliente($vd);
+                        break;             
+                        
                     // aggiornamento indirizzo
                     case 'indirizzo':
 

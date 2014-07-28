@@ -14,6 +14,11 @@ switch ($vd->getSottoPagina()) {
     case 'contatti':
         include_once 'contatti.php';
         break;
+    
+    case 'dettaglio_ordine':
+       include_once 'dettaglio_ordine.php';
+       break;
+   
     default:
         
         ?>

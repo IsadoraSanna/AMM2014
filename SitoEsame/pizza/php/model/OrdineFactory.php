@@ -180,14 +180,46 @@ class OrdineFactory {
             return $ordini;
         }
         
-        $ordine = self::caricaOrdiniDaStmt($stmt);
+        $ordine = self::caricaOrdineDaStmt($stmt);
 
         $mysqli->close();
         return $ordine;        
         
     }
    
+    public function &caricaOrdineDaStmt(mysqli_stmt $stmt) {
+        $ordine = array();
+        if (!$stmt->execute()) {
+            error_log("[caricaOrdiniDaStmt] impossibile" .
+                    " eseguire lo statement");
+            return null;
+        }
 
+        $row = array();
+        $bind = $stmt->bind_result(
+                $row['ordine_id'], 
+                $row['ordine_domicilio'],
+                $row['ordine_prezzo'],
+                $row['ordine_stato'], 
+                $row['cliente_id'], 
+                $row['addettoOrdini_id'],
+                $row['orario_id']);
+
+        if (!$bind) {
+            error_log("[caricaOrdiniDaStmt] impossibile" .
+                    " effettuare il binding in output");
+            return null;
+        }
+
+        while ($stmt->fetch()) {
+            $ordine = self::creaOrdineDaArray($row);
+        }
+
+        $stmt->close();
+
+        return $ordine;
+    }
+    
     public function &caricaOrdiniDaStmt(mysqli_stmt $stmt) {
         $ordini = array();
         if (!$stmt->execute()) {
