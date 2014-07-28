@@ -7,7 +7,7 @@ switch ($vd->getSottoPagina()) {
     case 'ordina':
         include_once 'ordina.php';
         break;   
-    case 'elenco ordini':
+    case 'elenco_ordini':
         include_once 'elenco_ordini.php';
         break;
     

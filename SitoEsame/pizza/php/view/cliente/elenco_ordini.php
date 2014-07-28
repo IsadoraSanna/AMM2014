@@ -9,21 +9,21 @@
         <thead>
             <tr>
                 <th class="esami-col-large">N. Ordine</th>
-                <!--<th class="esami-col-small">Pizza</th>                
-                <th class="esami-col-small">Quantità</th>
-                <th class="esami-col-small">Ora</th>-->
                 <th class="esami-col-small">Domicilio</th>                
                 <th class="esami-col-small">Stato</th>
-                <!--<th class="esami-col-small">Prezzo</th>-->
+                <th class="esami-col-small">Prezzo</th>
+                <th class="esami-col-small">Dettaglio</th>                
             </tr>
         </thead>
         <tbody>
             <?php
             foreach ($ordini as $ordine) { ?>
                     <td><?= $ordine->getId() ?></td>
-                    <td><?= $ordine->getDomicilio() ?></td>                    
+                    <? if($ordine->getDomicilio() == "s"){?> <td>si</td> <? } else {?> <td>no</td> <? } ?>                 
                     <td><?= $ordine->getStato() ?></td>
                     <td><?= $ordine->getPrezzo() ?></td>
+                    <td><a href="cliente/veicoli?cmd=prenota&veicolo=<?= $ordine->getId() ?>" title="dettaglio_ordine">
+                    <img src="../images/dettaglio.png" alt="dettaglio ordine"></a></td>                    
                 </tr>
                 <?php
             }

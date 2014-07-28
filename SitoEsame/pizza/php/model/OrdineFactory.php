@@ -189,7 +189,7 @@ class OrdineFactory {
    
 
     public function &caricaOrdiniDaStmt(mysqli_stmt $stmt) {
-        $ordine = array();
+        $ordini = array();
         if (!$stmt->execute()) {
             error_log("[caricaOrdiniDaStmt] impossibile" .
                     " eseguire lo statement");
@@ -213,12 +213,12 @@ class OrdineFactory {
         }
 
         while ($stmt->fetch()) {
-            $ordine = self::creaOrdineDaArray($row);
+            $ordini[] = self::creaOrdineDaArray($row);
         }
 
         $stmt->close();
 
-        return $ordine;
+        return $ordini;
     }                
               
     
