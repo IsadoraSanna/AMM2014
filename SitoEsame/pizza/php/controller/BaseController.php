@@ -87,7 +87,7 @@ class BaseController {
      */
     protected function showLoginPage($vd) {
         // mostro la pagina di login
-        $vd->setTitolo("esAMMi - login");
+        $vd->setTitolo("Pizza UniCA - login");
         $vd->setMenuFile(basename(__DIR__) . '/../view/login/menu.php');
         $vd->setLogoFile(basename(__DIR__) . '/../view/login/logo.php');
         $vd->setLeftBarFile(basename(__DIR__) . '/../view/login/leftBar.php');
@@ -103,7 +103,7 @@ class BaseController {
     protected function showHomeCliente($vd) {
         // mostro la home degli studenti
 
-        $vd->setTitolo("esAMMi - gestione cliente ");
+        $vd->setTitolo("Pizza UniCA - gestione cliente ");
         $vd->setMenuFile(basename(__DIR__) . '/../view/cliente/menu.php');
         $vd->setLogoFile(basename(__DIR__) . '/../view/cliente/logo.php');
         $vd->setLeftBarFile(basename(__DIR__) . '/../view/cliente/leftBar.php');
@@ -117,7 +117,7 @@ class BaseController {
      */
     protected function showHomeAddettoOrdini($vd) {
         // mostro la home dei docenti
-        $vd->setTitolo("esAMMi - gestione addettoOrdini ");
+        $vd->setTitolo("Pizza UniCA - gestione addetto ordini");
         $vd->setMenuFile(basename(__DIR__) . '/../view/addettoOrdini/menu.php');
         $vd->setLogoFile(basename(__DIR__) . '/../view/addettoOrdini/logo.php');
         $vd->setLeftBarFile(basename(__DIR__) . '/../view/addettoOrdini/leftBar.php');
