@@ -4,12 +4,12 @@
 
     }
     header {
-        background-image: url('../images/rayLogo.gif');
+        background-image: url('../images/logo.png');
         background-repeat: no-repeat;
         background-color: #990000;
-        padding-top: 20px;
+        padding-top: 0px;
         padding-bottom: 20px;
-        height: 122px;
+        height: 175px;
         width: 900px;
         box-shadow: 0 0 10px rgba(0,0,0,.2);
 
@@ -22,9 +22,10 @@
             padding-right: 20px;        
     }
     
-        #page {
+    #page {
         background-image: url('../images/pageBG.png');
         background-repeat: repeat-x;
+        background-color: #f1f1d3;
         width: 900px;
         margin-left: auto;
         margin-right: auto;
@@ -33,11 +34,9 @@
         box-shadow: 0 0 10px rgba(0,0,0,.2);
 
     }
-    
+/*controllo menu superiore*/
     #menu{
-        background-color: #990000;
-        margin-top: 20px;
-        height: 50px;
+        margin-top: 155px;
         display: inline-block;
         color: white;
         list-style: none;
@@ -45,10 +44,11 @@
 
     }
 
-
     #menu ul li{
-        position: relative;
         display: inline-block;
+        margin-right: 10px;
+
+  
 
     }
 
@@ -56,15 +56,19 @@
         color: white;
     }
     
+    #menuTop li.riga{
+        border-right: 1px solid #ad0000;
+    }
 
     #content {
         margin-top: 40px;
-        margin-left: 21%;
-        margin-right: 21%;
+        margin-left: 15%;
+        margin-right: 15%;
         padding-bottom: 10px;
         padding-left: 20%;
         min-height: 500px;
         position: static;
+        
     }
     
     #sidebar1{
@@ -86,17 +90,23 @@
     text-align: center;
     }
     
+    
     .validator{
         text-align: center;
         padding-bottom: 5px;
     }
-    .social p{
-        margin: 10px;
-        float: left;
-    }
 
+
+    #logout{
+        margin-left: 600px;
+        position: absolute; 
+        color: white;
+    }
+    
     p.logout a:link, p.logout a:visited{
         padding-left: 18px;
+        color: orange;
+        
     }
     
     p.logout{
@@ -104,9 +114,13 @@
     }
     
  /* social bar */
-
+    .social p{
+        margin: 10px;
+        float: left;
+    }
     .social{
-        width: 100%;
+        width: 500px;
+       
     }
 
     .social ul{
@@ -117,8 +131,7 @@
 
     .social ul li{
         display: inline-block;
-        width: 24px;
-        height: 24px;
+        height: 25px;
         overflow: hidden;
 
     }
@@ -126,18 +139,122 @@
     .social ul li a:link{
         color: transparent;
     }
-
-    #facebook{
-        background-image: url('../images/fb.png');
-        background-repeat: no-repeat;
+ 
+    label.full{
+        display: inline-block;
+        width: 70%;
     }
 
-    #twitter{
-        background-image: url('../images/twitter.png');
-        background-repeat: no-repeat;
-    }
+    label{
+        display: inline-block;
+        width: 30%;
+    }    
+    
+    
+    input[type=submit], button{
+    color: #FFFFFF;
+    background-color: #990000;
+    height: 2em;
+    font-weight: bold;
+    border-radius: 1em;
+    border: 1px solid #ad0000;
+    min-width: 100px;
+    margin-bottom: 10px;
+    margin-top: 5px;
 
-    #linkedin{
-        background-image: url('../images/linkedin.png');
-        background-repeat: no-repeat;
     }
+    
+    input[type=submit]:hover, button:hover{
+	background:linear-gradient(to top, #ad0000 5%, #990000 100%);
+        background-color:#ad0000;
+    }
+    
+    
+.input-form{
+    line-height: 3em;
+
+}
+
+
+.input-form input[type=text], .input-form input[type=password]{
+    display: inline-block;
+    width:59%;
+}
+
+.input-form select{
+    display: inline-block;
+    width:59%;
+    border: 1px solid #1c345a;
+    background-color: #ffffff;
+}
+
+.input-form input[type=submit], .input-form button{
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+.btn-group input[type=submit], .btn-group button{
+    display: inline-block;
+}
+
+.btn-group{
+    text-align: center;
+}
+
+/* stile delle tabelle */
+
+table {
+    border: 1px solid #1c345a;
+    border-collapse: collapse;
+    margin-top:10px;
+    line-height: 1.2em;
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+
+th, td {
+    border: 1px solid #1c345a;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th{
+    background-color: #990000;
+    color: white;
+    font-weight: bold;
+}
+td.normal {
+    height: 50px;
+}
+
+.esami-col-small{
+    width: 10%;
+}
+
+.esami-col-large{
+    width: 15%;
+}
+
+/* stile delle tabelle per il pannello di controllo*/
+.pControllo {   
+    border: 0px;
+    border-collapse: collapse;
+    margin-top:50px;
+    line-height: 1.2em;
+    width: 300px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    table-layout: fixed;
+}
+
+.noRighe{
+    border: 0px;
+    width: 100%;
+}

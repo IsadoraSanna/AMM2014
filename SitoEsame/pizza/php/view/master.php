@@ -25,8 +25,6 @@ if (!$vd->isJson()) {
             <meta http-equiv="content-type" content="text/html; charset=utf-8" />
             <title><?= $vd->getTitolo() ?></title>
             <base href="<?= Settings::getApplicationPath() ?>php/"/>
-            <meta name="keywords" content="AMM esami docente" />
-            <meta name="description" content="Una pagina per gestire le funzioni dei docenti" />
             <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico" />
             <link href="../css/style.css" rel="stylesheet" type="text/css" media="screen" />
             <?php
@@ -127,14 +125,7 @@ if (!$vd->isJson()) {
             <footer>
                 <div id="footer">
                     <p>
-                        Pizza UniCa - Isadora Sanna
-                        <div class="social">
-                            <ul>
-                                <li id="facebook"><a href="www.facebook.com">facebook</a></li>
-                                <li id="twitter"><a href="https://twitter.com/">twitter</a></li>
-                                <li id="linkedin"><a href="http://www.linkedin.com/">linkedin</a></li>
-                            </ul>
-                        </div>                        
+                        Pizza UniCa - Isadora Sanna                      
                         <br>                      
                         <a href="http://validator.w3.org/check/referer" class="xhtml" title="Questa pagina contiene HTML valido">
                             <abbr title="eXtensible HyperText Markup Language">HTML</abbr> Valido</a>

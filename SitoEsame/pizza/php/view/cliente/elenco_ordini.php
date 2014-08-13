@@ -18,11 +18,11 @@
         <tbody>
             <?php
             foreach ($ordini as $ordine) { ?>
-                    <td><?= $ordine->getId() ?></td>
+                    <td class="normal"><?= $ordine->getId() ?></td>
                     <? if($ordine->getDomicilio() == "s"){?> <td>si</td> <? } else {?> <td>no</td> <? } ?>                 
-                    <td><?= $ordine->getStato() ?></td>
-                    <td><?= $ordine->getPrezzo() ?></td>
-                    <td><a href="cliente/ordini?cmd=dettaglio&ordine=<?= $ordine->getId() ?>" title="dettaglio_ordine">
+                    <td class="normal"><?= $ordine->getStato() ?></td>
+                    <td class="normal"><?= $ordine->getPrezzo() ?></td>
+                    <td class="normal"><a href="cliente/ordini?cmd=dettaglio&ordine=<?= $ordine->getId() ?>" title="dettaglio_ordine">
                     <img src="../images/dettaglio.png" alt="dettaglio ordine"></a></td>                    
                 </tr>
                 <?php

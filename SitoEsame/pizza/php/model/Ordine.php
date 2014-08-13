@@ -5,16 +5,13 @@ include_once 'Cliente.php';
 class Ordine {
     
     private $id;
-    
     private $domicilio;
-    
-   private $stato;
-    
+    private $prezzo;
+    private $stato;
+    private $data;
     private $cliente;
-    
-   private $addettoOrdini;
-   
-   private $orario;
+    private $addettoOrdini;
+    private $orario;
    
    public function __construct() {
         
@@ -58,6 +55,13 @@ class Ordine {
         $this->stato = $stato;
     }
     
+    public function getData() {
+        return $this->data;
+    }
+
+    public function setData($data) {
+        $this->data = $data;
+    }    
     public function getCliente() {
         return $this->cliente;
     }

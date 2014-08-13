@@ -1,11 +1,14 @@
 <?php
 
 include_once 'BaseController.php';
-include_once basename(__DIR__) . '/../model/UserFactory.php';
+include_once basename(__DIR__) . '/../model/Pizza_ordineFactory.php';
+include_once basename(__DIR__) . '/../model/OrarioFactory.php';
+include_once basename(__DIR__) . '/../model/PizzaFactory.php';
+include_once basename(__DIR__) . '/../model/OrdineFactory.php';
 
 /**
  * Controller che gestisce la modifica dei dati dell'applicazione relativa ai 
- * Docenti da parte di utenti con ruolo AddettoOrdini o Amministratore 
+ * Docenti da parte di utenti con ruolo Docente o Amministratore 
  *
  * @author Davide Spano
  */
@@ -38,7 +41,7 @@ class AddettoOrdiniController extends BaseController {
                     $_SESSION[BaseController::user], $_SESSION[BaseController::role]);
 
             // verifico quale sia la sottopagina della categoria
-            // AddettoOrdini da servire ed imposto il descrittore 
+            // Docente da servire ed imposto il descrittore 
             // della vista per caricare i "pezzi" delle pagine corretti
             // tutte le variabili che vengono create senza essere utilizzate 
             // direttamente in questo switch, sono quelle che vengono poi lette
@@ -46,197 +49,48 @@ class AddettoOrdiniController extends BaseController {
             if (isset($request["subpage"])) {
                 switch ($request["subpage"]) {
 
-                    // modifica dei dati anagrafici
-                    case 'anagrafica':
-                        $dipartimenti = DipartimentoFactory::instance()->getDipartimenti();
-                        $vd->setSottoPagina('anagrafica');
-                        break;
-
                     // inserimento di una lista di appelli
-                    case 'appelli':
-                        $appelli = AppelloFactory::instance()->getAppelliPerAddettoOrdini($user);
-                        $insegnamenti = InsegnamentoFactory::instance()->getListaInsegnamentiPerAddettoOrdini($user);
-                        $vd->setSottoPagina('appelli');
+                    case 'gestione_ordini':
+                        $ordini = OrdineFactory::instance()->getOrdiniNonPagati();
+                        $vd->setSottoPagina('gestione_ordini');
                         break;
-
-                    // modifica di un appello
-                    case 'appelli_modifica':
-                        $msg = array();
-                        $appelli = AppelloFactory::instance()->getAppelliPerAddettoOrdini($user);
-                        $mod_appello = $this->getAppello($request, $msg);
-                        $insegnamenti = InsegnamentoFactory::instance()->getListaInsegnamentiPerAddettoOrdini($user);
-                        if (!isset($mod_appello)) {
-                            $vd->setSottoPagina('appelli');
-                        } else {
-                            $vd->setSottoPagina('appelli_modifica');
-                        }
-                        break;
-
-                    // creazione di un appello
-                    case 'appelli_crea':
-                        $msg = array();
-                        $appelli = AppelloFactory::instance()->getAppelliPerAddettoOrdini($user);
-                        $insegnamenti = InsegnamentoFactory::instance()->getListaInsegnamentiPerAddettoOrdini($user);
-                        if (!isset($request['cmd'])) {
-                            $vd->setSottoPagina('appelli');
-                        } else {
-                            $vd->setSottoPagina('appelli_crea');
-                        }
-
-                        break;
-
-                    // visualizzazione della lista di iscritti ad un appello
-                    case 'appelli_iscritti':
-                        $msg = array();
-                        $appelli = AppelloFactory::instance()->getAppelliPerAddettoOrdini($user);
-                        $mod_appello = $this->getAppello($request, $msg);
-                        if (!isset($mod_appello)) {
-                            $vd->setSottoPagina('appelli');
-                        } else {
-                            $vd->setSottoPagina('appelli_iscritti');
-                        }
-                        break;
-
-                    // registrazione degli esami
-                    // con visualizzazione delle liste attive
-                    case 'reg_esami':
-                        if (!isset($_SESSION[self::elenco])) {
-                            $_SESSION[self::elenco] = array();
-                        }
-                        $elenco_id = $this->getIdElenco($request, $msg, $_SESSION);
-                        $elenchi_attivi = $_SESSION[self::elenco];
-                        $vd->setSottoPagina('reg_esami');
-                        break;
-
-                    // registrazione degli esami, passo 1:
-                    // selezione dell'insegnamento
-                    case 'reg_esami_step1':
-                        $msg = array();
-
-                        // ricerco l'elenco da modificare, e' possibile gestirne 
-                        // piu' di uno con lo stesso browser
-                        $elenco_id = $this->getIdElenco($request, $msg, $_SESSION);
-                        $insegnamenti = InsegnamentoFactory::instance()->getListaInsegnamentiPerAddettoOrdini($user);
-                        $docenti = UserFactory::instance()->getListaDocenti();
-
-                        if (isset($elenco_id)) {
-                            $sel_insegnamento = $_SESSION[self::elenco][$elenco_id]->getTemplate()->getInsegnamento();
-                        }
-                        $vd->setSottoPagina('reg_esami_step1');
-                        break;
-
-                    // registrazione degli esami, passo 2:
-                    // selezione della commissione
-                    case 'reg_esami_step2':
-                        $msg = array();
-                        $docenti = UserFactory::instance()->getListaDocenti();
-
-                        // ricerco l'elenco da modificare, e' possibile gestirne 
-                        // piu' di uno con lo stesso browser
-                        $elenco_id = $this->getIdElenco($request, $msg, $_SESSION);
-                        $insegnamenti = InsegnamentoFactory::instance()->getListaInsegnamentiPerAddettoOrdini($user);
-                        $elenchi_attivi = $_SESSION[self::elenco];
-
-                        if (isset($elenco_id)) {
-                            $commissione = $_SESSION[self::elenco][$elenco_id]->getTemplate()->getCommissione();
-                            $sel_insegnamento = $_SESSION[self::elenco][$elenco_id]->getTemplate()->getInsegnamento();
-                            $sel_esami = $_SESSION[self::elenco][$elenco_id]->getEsami();
-                            // se l'insegnamento non e' stato specificato lo rimandiamo
-                            // al passo precedente
-                            if (!isset($sel_insegnamento)) {
-                                $vd->setSottoPagina('reg_esami_step1');
-                            } else {
-                                $vd->setSottoPagina('reg_esami_step2');
-                            }
-                        } else {
-                            $vd->setSottoPagina('reg_esami');
-                        }
-                        break;
-
-                    // registrazione degli esami, passo 3:
-                    // inserimento statini
-                    case 'reg_esami_step3':
-                        $msg = array();
-                        $docenti = UserFactory::instance()->getListaDocenti();
-
-                        // ricerco l'elenco da modificare, e' possibile gestirne 
-                        // piu' di uno con lo stesso browser
-                        $elenco_id = $this->getIdElenco($request, $msg, $_SESSION);
-                        $elenchi_attivi = $_SESSION[self::elenco];
-                        if (isset($elenco_id)) {
-                            $commissione = $_SESSION[self::elenco][$elenco_id]->getTemplate()->getCommissione();
-                            $sel_insegnamento = $_SESSION[self::elenco][$elenco_id]->getTemplate()->getInsegnamento();
-                            $sel_esami = $_SESSION[self::elenco][$elenco_id]->getEsami();
-
-                            // se l'insegnamento non e' stato specificato lo 
-                            // rimandiamo al passo 1
-                            if (!isset($sel_insegnamento)) {
-                                $vd->setSottoPagina('reg_esami_step1');
-                                // se la commissione non e' valida lo rimandiamo al passo 2
-                            } else if (!isset($commissione) ||
-                                    !$_SESSION[self::elenco][$elenco_id]->getTemplate()->commissioneValida()) {
-                                $vd->setSottoPagina('reg_esami_step2');
-                            } else {
-                                // tutto ok, passo 3
-                                $vd->setSottoPagina('reg_esami_step3');
-                            }
-                        } else {
-                            $vd->setSottoPagina('reg_esami');
-                        }
-                        break;
-
-                    // visualizzazione dell'elenco esami
-                    case 'el_esami':
-                        $insegnamenti = InsegnamentoFactory::instance()->getListaInsegnamentiPerAddettoOrdini($user);
-                        $vd->setSottoPagina('el_esami');
+                    
+                    case 'ricerca_ordini':
+                        $orari = OrarioFactory::instance()->getOrari();
+                        $date = OrdineFactory::instance()->getDate();
+                        $vd->setSottoPagina('ricerca_ordini');
+                   
                         $vd->addScript("../js/jquery-2.1.1.min.js");
-                        $vd->addScript("../js/elencoEsami.js");
-                        break;
-
-                    // gestione della richiesta ajax di filtro esami
-                    case 'filtra_esami':
+                        $vd->addScript("../js/ricercaOrdini.js");
+                        break;                    
+                    
+                    case 'filtra_ordini':
                         $vd->toggleJson();
-                        $vd->setSottoPagina('el_esami_json');
+                        $vd->setSottoPagina('ricerca_ordini_json');
+                        
                         $errori = array();
 
-                        if (isset($request['insegnamento']) && ($request['insegnamento'] != '')) {
-                            $insegnamento_id = filter_var($request['insegnamento'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-                            if($insegnamento_id == null){
-                                $errori['insegnamento'] = "Specificare un identificatore valido";
+                        if (isset($request['mydata']) && ($request['mydata'] != '')) {
+                            $data = $request['mydata'];
+                            if ($data == null) {
+                                $errori['mydata'] = "Specificare una data valida";
                             }
                         } else {
-                            $insegnamento_id = null;
-                            
+                            $data = null;
                         }
 
-                        if (isset($request['matricola']) && ($request['matricola'] != '')) {
-                            $matricola = filter_var($request['matricola'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-                            if($matricola == null){
-                                $errori['matricola'] = "Specificare una matricola valida";
+                        if (isset($request['myora']) && ($request['myora'] != '')) {
+                            $ora = filter_var($request['myora'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+                            if ($ora == null) {
+                                $errori['myora'] = "Specificare un orario valido";
                             }
                         } else {
-                            $matricola = null;
-                            
+                            $ora = null;
                         }
-
-                        if (isset($request['cognome'])) {
-                            $cognome = $request['cognome'];
-                        }else{
-                            $cognome = null;
-                        }
-
-                        if (isset($request['nome'])) {
-                            $nome = $request['nome'];
-                        }else{
-                            $nome = null;
-                        }
+                        //var_dump("data".$request['mydata']." Ora " .$request['myora']);
+                        $ordini = OrdineFactory::instance()->ricercaPerDataOra($data, $ora);
 
                         
-                        $esami = EsameFactory::instance()->ricercaEsami(
-                                $user, 
-                                $insegnamento_id, 
-                                $matricola, $nome, $cognome);
-
                         break;
 
                     default:
@@ -256,21 +110,6 @@ class AddettoOrdiniController extends BaseController {
                         $this->logout($vd);
                         break;
 
-                    // modifica delle informazioni sull'indirizzo dell'ufficio
-                    case 'ufficio':
-                        $msg = array();
-                        if (isset($request['dipartimento'])) {
-                            $intVal = filter_var($request['dipartimento'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-                            if (!isset($intVal) || $intVal < 0 || $intVal > count($dipartimenti)
-                                    || $user->setDipartimento($dipartimenti[$intVal])) {
-                                $msg[] = '<li>Il dipartimento specificato non &egrave; corretto</li>';
-                            }
-                        }
-                        $this->aggiornaIndirizzo($user, $request, $msg);
-                        $this->creaFeedbackUtente($msg, $vd, "Indirizzo ufficio aggiornato");
-                        $this->showHomeUtente($vd);
-                        break;
-
                     // modifica delle informazioni di contatto
                     case 'contatti':
                         $msg = array();
@@ -282,30 +121,54 @@ class AddettoOrdiniController extends BaseController {
                         $this->aggiornaEmail($user, $request, $msg);
 
                         $this->creaFeedbackUtente($msg, $vd, "Contatti aggiornati");
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
-
+                        
+                    case 'dettaglio':
+                        $ordineId = filter_var($request['ordine'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+                        $ordine = OrdineFactory::instance()->getOrdine($ordineId);
+                        $POs = Pizza_ordineFactory::instance()->getPOPerIdOrdine($ordine);
+                        $cliente = UserFactory::instance()->getClientePerId($ordine->getCliente());
+                        $vd->setSottoPagina('dettaglio_ordine');
+                        $this->showHomeAddettoOrdini($vd);
+                        break; 
+                    
+                    case 'paga':
+                        $msg = array();
+                        $ordineId = filter_var($request['ordine'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+                        if (OrdineFactory::instance()->setPagato($ordineId)) {
+                            $this->creaFeedbackUtente($msg, $vd, "Ordine ".$ordineId." pagato.");
+                        }else $this->creaFeedbackUtente($msg, $vd, "Errore cancellazione"); 
+                        
+                        $vd->setSottoPagina('gestione_ordini');
+                        $ordini = OrdineFactory::instance()->getOrdiniNonPagati();
+                        $this->showHomeAddettoOrdini($vd);                        
+                        break;
+                    
+                        
+  
+                    
                     // modifica della password
                     case 'password':
                         $msg = array();
                         $this->aggiornaPassword($user, $request, $msg);
                         $this->creaFeedbackUtente($msg, $vd, "Password aggiornata");
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // richiesta modifica di un appello esistente,
                     // dobbiamo mostrare le informazioni
                     case 'a_modifica':
-                        $appelli = AppelloFactory::instance()->getAppelliPerAddettoOrdini($user);
+                        $appelli = AppelloFactory::instance()->getAppelliPerDocente($user);
                         if (isset($request['appello'])) {
                             $intVal = filter_var($request['appello'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
                             if (isset($intVal)) {
                                 $mod_appello = $this->cercaAppelloPerId($intVal, $appelli);
-                                $insegnamenti = InsegnamentoFactory::instance()->getListaInsegnamentiPerAddettoOrdini($user);
+                                $insegnamenti = InsegnamentoFactory::instance()->getListaInsegnamentiPerDocente($user);
                                 //$vd->setStato('a_modifica');
                             }
                         }
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // salvataggio delle modifiche ad un appello esistente
@@ -327,21 +190,21 @@ class AddettoOrdiniController extends BaseController {
                         } else {
                             $msg[] = '<li> Appello non specificato </li>';
                         }
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // l'utente non vuole modificare l'appello selezionato
                     case 'a_annulla':
                         $vd->setSottoPagina('appelli');
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // richesta di visualizzazione del form per la creazione di un nuovo
                     // appello
                     case 'a_crea':
-                        $appelli = AppelloFactory::instance()->getAppelliPerAddettoOrdini($user);
+                        $appelli = AppelloFactory::instance()->getAppelliPerDocente($user);
                         $vd->setSottoPagina('appelli_crea');
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // creazione di un nuovo appello
@@ -357,20 +220,20 @@ class AddettoOrdiniController extends BaseController {
                                 $msg[] = '<li> Impossibile creare l\'appello </li>';
                             }
                         }
-                        $appelli = AppelloFactory::instance()->getAppelliPerAddettoOrdini($user);
-                        $this->showHomeUtente($vd);
+                        $appelli = AppelloFactory::instance()->getAppelliPerDocente($user);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // mostra la lista degli iscritti
                     case 'a_iscritti':
-                        $appelli = AppelloFactory::instance()->getAppelliPerAddettoOrdini($user);
+                        $appelli = AppelloFactory::instance()->getAppelliPerDocente($user);
                         if (isset($request['appello'])) {
                             $intVal = filter_var($request['appello'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
                             if (isset($intVal)) {
                                 $mod_appello = $this->cercaAppelloPerId($intVal, $appelli);
                             }
                         }
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // cancella un appello
@@ -388,8 +251,8 @@ class AddettoOrdiniController extends BaseController {
                                 $this->creaFeedbackUtente($msg, $vd, "Appello eliminato");
                             }
                         }
-                        $appelli = AppelloFactory::instance()->getAppelliPerAddettoOrdini($user);
-                        $this->showHomeUtente($vd);
+                        $appelli = AppelloFactory::instance()->getAppelliPerDocente($user);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // richiesta di creazione di un nuovo elenco di esami
@@ -401,7 +264,7 @@ class AddettoOrdiniController extends BaseController {
                         $_SESSION[self::elenco][$elenco_id] = $el;
                         $elenchi_attivi = $_SESSION[self::elenco];
 
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // selezione dell'insegnamento
@@ -427,7 +290,7 @@ class AddettoOrdiniController extends BaseController {
                             }
                             $this->creaFeedbackUtente($msg, $vd, "Insegnamento selezionato");
                         }
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // aggiunta di un membro della  commissione
@@ -436,7 +299,7 @@ class AddettoOrdiniController extends BaseController {
                             // richiesta di aggiungere un nuovo membro
                             $index = filter_var($request['nuovo-membro'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
                             if (isset($index) &&
-                                    ($new_docente = UserFactory::instance()->cercaUtentePerId($index, User::AddettoOrdini)) != null) {
+                                    ($new_docente = UserFactory::instance()->cercaUtentePerId($index, User::Docente)) != null) {
                                 // docente trovato
                                 // aggiungiamo il docente alla lista
                                 if (!$_SESSION[self::elenco][$elenco_id]->getTemplate()->aggiungiMembroCommissione($new_docente)) {
@@ -451,7 +314,7 @@ class AddettoOrdiniController extends BaseController {
                             }
                             $this->creaFeedbackUtente($msg, $vd, "Membro aggiunto in commissione");
                         }
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
 
@@ -472,7 +335,7 @@ class AddettoOrdiniController extends BaseController {
                             }
                         }
                         $this->creaFeedbackUtente($msg, $vd, "Membro rimosso dalla commissione");
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
 
@@ -487,7 +350,7 @@ class AddettoOrdiniController extends BaseController {
                                 $vd->setSottoPagina('reg_esami_step2');
                             }
                         }
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // aggiunta di uno statino
@@ -527,7 +390,7 @@ class AddettoOrdiniController extends BaseController {
                             }
                             $this->creaFeedbackUtente($msg, $vd, "Statino inserito in elenco");
                         }
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // rimozione di uno statino
@@ -547,7 +410,7 @@ class AddettoOrdiniController extends BaseController {
                             }
                             $this->creaFeedbackUtente($msg, $vd, "Statino eliminato correttamente");
                         }
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // salvataggio permanente dell'elenco
@@ -567,7 +430,7 @@ class AddettoOrdiniController extends BaseController {
                             }
                             $this->creaFeedbackUtente($msg, $vd, "Esami registrati correttamente");
                         }
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // cancellazione di un elenco
@@ -577,19 +440,19 @@ class AddettoOrdiniController extends BaseController {
                             $this->creaFeedbackUtente($msg, $vd, "Elenco cancellato");
                             $elenchi_attivi = $_SESSION[self::elenco];
                         }
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // ricerca di un esame
                     case 'e_cerca':
                         $msg = array();
                         $this->creaFeedbackUtente($msg, $vd, "Lo implementiamo con il db, fai conto che abbia funzionato ;)");
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
 
                     // default
                     default:
-                        $this->showHomeUtente($vd);
+                        $this->showHomeAddettoOrdini($vd);
                         break;
                 }
             } else {
@@ -598,7 +461,7 @@ class AddettoOrdiniController extends BaseController {
                 // nessun comando
                 $user = UserFactory::instance()->cercaUtentePerId(
                         $_SESSION[BaseController::user], $_SESSION[BaseController::role]);
-                $this->showHomeUtente($vd);
+                $this->showHomeAddettoOrdini($vd);
             }
         }
 

@@ -478,8 +478,41 @@ class UserFactory {
 
             default: return null;
         }
+                
     }
+    public function getClientePerId($id) {
+       $cliente = array();
+        $query = "SELECT * FROM clienti WHERE clienti.id = ? ";          
+        
+        $mysqli = Db::getInstance()->connectDb();
+        if (!isset($mysqli)) {
+            error_log("[getClientePerId] impossibile inizializzare il database");
+            $mysqli->close();
+            return $cliente;
+        }
 
+        $stmt = $mysqli->stmt_init();
+        $stmt->prepare($query);
+        if (!$stmt) {
+            error_log("[getClientePerId] impossibile" .
+                    " inizializzare il prepared statement");
+            $mysqli->close();
+            return $cliente;
+        }
+
+        if (!$stmt->bind_param('i', $id)) {
+            error_log("[getClientePerId] impossibile" .
+                    " effettuare il binding in input");
+            $mysqli->close();
+            return $cliente;
+        } 
+        
+        $cliente = self::caricaClienteDaStmt($stmt);
+
+        $mysqli->close();
+        return $cliente;        
+                
+    }
 }
 
 ?>

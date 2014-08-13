@@ -1,5 +1,6 @@
 <div class="input-form">
-    <h3>Login</h3>
+
+    <h2 class="icon-title">Login</h2>
 
     <form method="post" action="login">
         <input type="hidden" name="cmd" value="login"/>

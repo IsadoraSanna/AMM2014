@@ -73,11 +73,12 @@ class OrdineFactory {
         
     }
     
-    public function aggiornaOrdine($ordine, $domicilio){
+    public function aggiornaOrdine($user, $ordine, $domicilio){
         $query = "UPDATE `ordini` SET 
             `domicilio`= ?,
             `prezzo`= ?,
             `stato`= ?,
+            `data`= ?,            
             `cliente_id`= ?,
             `addettoOrdini_id`= ?,
             `orario_id`= ? 
@@ -98,18 +99,20 @@ class OrdineFactory {
             $mysqli->close();
             return 0;
         }
-        $prezzo = Pizza_ordineFactory::instance()->getPrezzoParziale($ordine->getId()); 
-        $cliente_id = 1;
+        $prezzo = Pizza_ordineFactory::instance()->getPrezzoParziale($ordine); 
+        $data = date('Y-m-d');
+        $orario = $ordine->getOrario();
+        $cliente_id = $user->getId();
         $addetto_id = 1;
-        $ora = 3;
         $stato = "non pagato";
-        if (!$stmt->bind_param('sisiiii',
+        if (!$stmt->bind_param('sissiiii',
                 $domicilio,
                 $prezzo,
                 $stato,
+                $data,
                 $cliente_id,
                 $addetto_id,
-                $ora,
+                $orario,
                 $ordine->getId())) {
             error_log("[nuovoOrdine] impossibile" .
                     " effettuare il binding in input");
@@ -123,6 +126,94 @@ class OrdineFactory {
                     " eseguire lo statement");
             $mysqli->close();
             return 0;
+        }
+
+        $mysqli->close();
+        return $stmt->affected_rows;        
+    }
+    
+    public function getValoreOrario($orarioId){
+        $query = "select orari.fasciaOraria             
+            FROM orari
+            JOIN ordini ON orari.id = ordini.orario_id
+            WHERE ordini.orario_id = ?";
+
+             $mysqli = Db::getInstance()->connectDb();
+        if (!isset($mysqli)) {
+            error_log("[getValoreOrario] impossibile inizializzare il database");
+            $mysqli->close();
+            return true;
+        }
+
+        $stmt = $mysqli->stmt_init();
+        $stmt->prepare($query);
+        if (!$stmt) {
+            error_log("[getValoreOrario] impossibile" .
+                    " inizializzare il prepared statement");
+            $mysqli->close();
+            return true;
+        }
+
+        if (!$stmt->bind_param('i', $orarioId)) {
+            error_log("[getValoreOrario] impossibile" .
+                    " effettuare il binding in input");
+            $mysqli->close();
+            return true;
+        }
+
+       if (!$stmt->execute()) {
+            error_log("[getValoreOrario] impossibile" .
+                    " eseguire lo statement");
+            return null;
+        }
+
+        $row = array();
+        $bind = $stmt->bind_result($row['orario']);
+
+        if (!$bind) {
+            error_log("[getNPizzePerOrdine] impossibile" .
+                    " effettuare il binding in output");
+            return null;
+        }
+        $stmt->fetch();
+        $orario =  $row['orario'];
+        
+        $mysqli->close();
+        return $orario;                
+        
+    }   
+    
+    public function cancellaOrdine($id){
+        $query = "delete from ordini where id = ?";
+        
+        $mysqli = Db::getInstance()->connectDb();
+        if (!isset($mysqli)) {
+            error_log("[cancellaPerId] impossibile inizializzare il database");
+            return false;
+        }
+
+        $stmt = $mysqli->stmt_init();
+
+        $stmt->prepare($query);
+        if (!$stmt) {
+            error_log("[cancellaOrdine] impossibile" .
+                    " inizializzare il prepared statement");
+            $mysqli->close();
+            return false;
+        }
+
+        if (!$stmt->bind_param('i', $id)){
+        error_log("[cancellaOrdine] impossibile" .
+                " effettuare il binding in input");
+        $mysqli->close();
+        return false;
+        }
+
+        if (!$stmt->execute()) {
+            error_log("[cancellaOrdine] impossibile" .
+                    " eseguire lo statement");
+            $mysqli->close();
+            return false;
         }
 
         $mysqli->close();
@@ -146,9 +237,9 @@ class OrdineFactory {
         
     }   
     
-    public function getPrezzoTotale($ordine){
+    public function getPrezzoTotale(Ordine $ordine){
         $domicilio = 1.5;
-        $prezzoParziale = Pizza_ordineFactory::instance()->getPrezzoParziale($ordine->getId());
+        $prezzoParziale = Pizza_ordineFactory::instance()->getPrezzoParziale($ordine);
         if ($ordine->getDomicilio() == "s") return  $prezzoParziale + $domicilio;
         else return $prezzoParziale;
     }
@@ -201,6 +292,7 @@ class OrdineFactory {
                 $row['ordine_domicilio'],
                 $row['ordine_prezzo'],
                 $row['ordine_stato'], 
+                $row['ordine_data'],                
                 $row['cliente_id'], 
                 $row['addettoOrdini_id'],
                 $row['orario_id']);
@@ -233,7 +325,8 @@ class OrdineFactory {
                 $row['ordine_id'], 
                 $row['ordine_domicilio'],
                 $row['ordine_prezzo'],
-                $row['ordine_stato'], 
+                $row['ordine_stato'],
+                $row['ordine_data'],                
                 $row['cliente_id'], 
                 $row['addettoOrdini_id'],
                 $row['orario_id']);
@@ -260,6 +353,7 @@ class OrdineFactory {
         $ordine->setDomicilio($row['ordine_domicilio']);        
         $ordine->setPrezzo($row['ordine_prezzo']);
         $ordine->setStato($row['ordine_stato']);
+        $ordine->setData($row['ordine_data']);        
         $ordine->setCliente($row['cliente_id']);
         $ordine->setAddettoOrdini($row['addettoOrdini_id']);
         $ordine->setOrario($row['orario_id']);        
@@ -298,7 +392,143 @@ class OrdineFactory {
 
         $mysqli->close();
         return $ordini;
-    }  
+    }
+ 
+    public function getOrdiniNonPagati(){
+        $ordini = array();
+        $query = "SELECT * FROM ordini WHERE ordini.stato = ? AND ordini.data LIKE ?";  
+        
+        $stato = "non pagato";
+        $data = date('Y\-m\-d').'%';
+        
+        $mysqli = Db::getInstance()->connectDb();
+        if (!isset($mysqli)) {
+            error_log("[getOrdiniNonPagati] impossibile inizializzare il database");
+            $mysqli->close();
+            return $ordini;
+        }
+
+        $stmt = $mysqli->stmt_init();
+        $stmt->prepare($query);
+        if (!$stmt) {
+            error_log("[getOrdiniNonPagati] impossibile" .
+                    " inizializzare il prepared statement");
+            $mysqli->close();
+            return $ordini;
+        }
+
+        if (!$stmt->bind_param('ss', $stato, $data)) {
+            error_log("[getOrdiniNonPagati] impossibile" .
+                    " effettuare il binding in input");
+            $mysqli->close();
+            return $ordini;
+        } 
+        
+        $ordini = self::caricaOrdiniDaStmt($stmt);
+
+        $mysqli->close();
+        return $ordini;        
+        
+    }
+    
+    public function setPagato($ordineId){
+        $query = "UPDATE `ordini` SET `stato`= ? WHERE id = ?";   
+        
+        $mysqli = Db::getInstance()->connectDb();
+        if (!isset($mysqli)) {
+            error_log("[setPagato] impossibile inizializzare il database");
+            return 0;
+        }
+
+        $stmt = $mysqli->stmt_init();
+
+        $stmt->prepare($query);
+        if (!$stmt) {
+            error_log("[setPagato] impossibile" .
+                    " inizializzare il prepared statement");
+            $mysqli->close();
+            return 0;
+        }
+
+        $stato = "pagato";
+        
+        if (!$stmt->bind_param('si', $stato, $ordineId)) {
+            error_log("[setPagato] impossibile" .
+                    " effettuare il binding in input");
+            $mysqli->close();
+            return 0;
+        }
+
+
+        if (!$stmt->execute()) {
+            error_log("[setPagato] impossibile" .
+                    " eseguire lo statement");
+            $mysqli->close();
+            return 0;
+        }
+
+        $mysqli->close();
+        return $stmt->affected_rows;                
+    }
+    
+    public function &getDate(){
+        $date = array();
+        $query = "SELECT DISTINCT `data` FROM  `ordini`";
+        $mysqli = Db::getInstance()->connectDb();
+        if (!isset($mysqli)) {
+            error_log("[getDate] impossibile inizializzare il database");
+            $mysqli->close();
+           
+        }
+        $result = $mysqli->query($query);
+        if ($mysqli->errno > 0) {
+            error_log("[getDate] impossibile eseguire la query");
+            $mysqli->close();
+         
+        }
+
+        while ($row = $result->fetch_array()) {
+            $date[] = $row['data'];
+        }
+
+        $mysqli->close();
+        return $date;        
+    }    
+   
+    public function ricercaPerDataOra($data, $oraId){
+        $ordini = array();
+        $query = "SELECT * FROM ordini WHERE ordini.data = ? AND ordini.orario_id = ?";     
+        $data = date('Y\-m\-d').'%';
+        
+       $mysqli = Db::getInstance()->connectDb();
+        if (!isset($mysqli)) {
+            error_log("[ricercaPerDataOra] impossibile inizializzare il database");
+            $mysqli->close();
+            return $ordini;
+        }
+
+        $stmt = $mysqli->stmt_init();
+        $stmt->prepare($query);
+        if (!$stmt) {
+            error_log("[ricercaPerDataOra] impossibile" .
+                    " inizializzare il prepared statement");
+            $mysqli->close();
+            return $ordini;
+        }
+
+        if (!$stmt->bind_param('si', $data, $oraId)) {
+            error_log("[ricercaPerDataOra] impossibile" .
+                    " effettuare il binding in input");
+            $mysqli->close();
+            return $ordini;
+        } 
+        
+        $ordini = self::caricaOrdiniDaStmt($stmt);
+
+        $mysqli->close();
+        return $ordini;                
+        
+    }
 }
 
 ?>

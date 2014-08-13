@@ -18,26 +18,54 @@ switch ($vd->getSottoPagina()) {
     case 'dettaglio_ordine':
        include_once 'dettaglio_ordine.php';
        break;
+
+    case 'conferma_ordine':
+       include_once 'conferma_ordine.php';
+       break;
+   
    
     default:
         
         ?>
         <h2 class="icon-title" id="h-home">Pannello di Controllo</h2>
-        <p>
-            Benvenuto, <?= $user->getNome() ?>
-        </p>
-        <p>
-            Scegli una fra le seguenti sezioni:
-        </p>
-        <ul class="panel">
-            <li><a href="cliente/anagrafica" id="pnl-anagrafica">Anagrafica</a></li>
-            <li><a href="cliente/ordina" id="pnl-libretto">Ordina</a></li>
-            <li><a href="cliente/elenco_ordini" id="pnl-libretto">Elenco Ordini</a></li>            
-            <li><a href="cliente/contatti" id="pnl-iscrizione">Contatti</a></li>
-        </ul>
-        <?php
-        break;
-}
-?>
+        
+        <table class="pControllo">
+            <tr>
+                <td class="noRighe"><a href="cliente/anagrafica" title="anagrafica">
+                <img src="../images/anagrafica.png" alt="anagrafica"></a></td>     
+                <td class="noRighe">
+                    <h4>Anagrafica</h4>
+                    <p><i>verifica e modifica i dati personali</i></p>
+                </td>                
+            </tr>             
+            <tr>
+                <td class="noRighe"></td>
+                <td class="noRighe">
+                    <h4>Ordina</h4>
+                    <p><i>crea un nuovo ordine</i></p>
+                </td>
+                <td class="noRighe"><a href="cliente/ordina" title="ordina">
+                <img src="../images/gestione.png" alt="ordina"></a></td>                                               
+            </tr>     
+            <tr>
+                <td class="noRighe"><a href="cliente/elenco_ordini" title="elenco_ordini">
+                <img src="../images/ricerca.png" alt="elenco ordini"></a></td>
+                <td class="noRighe">
+                    <h4>Elenco ordini</h4>
+                    <p><i>visualizza tutti gli ordini effettuati</i></p>                   
+                </td>                                               
+            </tr>  
+            <tr>
+                <td class="noRighe"></td>
+                <td class="noRighe">
+                    <h4>Contatti</h4>
+                    <p><i>i nostri riferimenti</i></p>
+                </td>
+                <td class="noRighe"><a href="cliente/contatti" title="contatti">
+                <img src="../images/contatti.png" alt="contatti"></a></td>                                               
+            </tr>             
+        </table>       
+        
+<?php break; } ?>
 
 
