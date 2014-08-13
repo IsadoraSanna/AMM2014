@@ -57,7 +57,7 @@ $(document).ready(function () {
                             $(colonne[0]).text(esami['id']);
                             $(colonne[1]).text(esami['data']);
                             $(colonne[2]).text(esami['ora']);
-                            $(colonne[3]).text(esami['cognome'] + " " + esami['nome']);
+                            $(colonne[3]).text(esami['cliente']);
                             $(colonne[4]).text(esami['prezzo']);
 
                             i++;

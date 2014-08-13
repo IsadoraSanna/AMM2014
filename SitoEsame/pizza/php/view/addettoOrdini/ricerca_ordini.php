@@ -32,12 +32,11 @@
 <table id="tabella_ordini">
     <thead>
         <tr>
-            <th>Insegnamento</th>
-            <th>Crediti</th>
-            <th>Matricola</th>
-            <th>Studente</th>
-            <th>Voto</th>
-            <th>Membri</th>
+            <th>id</th>
+            <th>data</th>
+            <th>ora</th>
+            <th>cliente</th>
+            <th>prezzo</th>
         </tr>
     </thead>
     <tbody>

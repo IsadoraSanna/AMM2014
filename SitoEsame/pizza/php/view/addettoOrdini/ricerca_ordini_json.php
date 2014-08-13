@@ -9,8 +9,7 @@ foreach($ordini as $ordine){
     $element['id'] = $ordine->getId();
     $element['data'] = $ordine->getData();
     $element['ora'] = $ordine->getOrario();
-    $element['nome'] = UserFactory::instance()->getClientePerId($ordine->getCliente())->getNome();
-    $element['cognome'] = UserFactory::instance()->getClientePerId($ordine->getCliente())->getCognome();
+    $element['cliente'] = UserFactory::instance()->getClientePerId($ordine->getCliente())->getNome()  . " " . UserFactory::instance()->getClientePerId($ordine->getCliente())->getCognome();
     $element['prezzo'] = $ordine->getPrezzo();
 
     $json['ordini'][] = $element;    
