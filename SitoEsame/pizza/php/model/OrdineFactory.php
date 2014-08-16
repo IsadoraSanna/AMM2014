@@ -497,8 +497,9 @@ class OrdineFactory {
    
     public function ricercaPerDataOra($data, $oraId){
         $ordini = array();
-        $query = "SELECT * FROM ordini WHERE ordini.data = ? AND ordini.orario_id = ?";     
-        $data = date('Y\-m\-d').'%';
+        $query = "SELECT * FROM ordini WHERE ordini.data = ? AND ordini.orario_id = ?"; 
+        //$data = date('Y\-m\-d').'%';
+        $newData = substr($data,0,4)."\\".substr($data,4,7)."\\".substr($data,-3).'%';
         
        $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {
@@ -516,7 +517,7 @@ class OrdineFactory {
             return $ordini;
         }
 
-        if (!$stmt->bind_param('si', $data, $oraId)) {
+        if (!$stmt->bind_param('si', $newData, $oraId)) {
             error_log("[ricercaPerDataOra] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
