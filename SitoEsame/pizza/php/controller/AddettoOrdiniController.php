@@ -72,18 +72,12 @@ class AddettoOrdiniController extends BaseController {
 
                         if (isset($request['mydata']) && ($request['mydata'] != '')) {
                             $data = $request['mydata'];
-                            if ($data == null) {
-                                $errori['mydata'] = "Specificare una data valida";
-                            }
                         } else {
                             $data = null;
                         }
 
                         if (isset($request['myora']) && ($request['myora'] != '')) {
-                            $ora = filter_var($request['myora'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-                            if ($ora == null) {
-                                $errori['myora'] = "Specificare un orario valido";
-                            }
+                            $ora = $request['myora'];
                         } else {
                             $ora = null;
                         }
