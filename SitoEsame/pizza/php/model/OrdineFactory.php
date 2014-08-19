@@ -498,8 +498,8 @@ class OrdineFactory {
     public function ricercaPerDataOra($data, $oraId){
         $ordini = array();
         $query = "SELECT * FROM ordini WHERE ordini.data = ? AND ordini.orario_id = ?"; 
-        //$data = date('Y\-m\-d').'%';
-        $newData = substr($data,0,4)."\\".substr($data,4,7)."\\".substr($data,-3).'%';
+      
+        $newData = substr($data,0,4)."\\".substr($data,4,3)."\\".substr($data,7,3).'%';
         
        $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {

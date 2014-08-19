@@ -9,9 +9,13 @@
             <option value="mydata"></option>
             <?php foreach ($date as $data) { ?>
                 <option value="<?=substr($data,0,10)?>" ><?=substr($data,0,10)?></option>
-            <?php } ?>
+            <?php } 
+
+            ?>
                 
+
         </select>
+
         <br/>
         <label for="myora">Fascia oraria</label>
         <select name="myora" id="myora">

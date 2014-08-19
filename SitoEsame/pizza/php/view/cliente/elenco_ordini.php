@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th class="esami-col-large">N. Ordine</th>
-                <th class="esami-col-small">Domicilio</th>                
+                <th class="esami-col-small">Data</th>                
                 <th class="esami-col-small">Stato</th>
                 <th class="esami-col-small">Prezzo</th>
                 <th class="esami-col-small">Dettaglio</th>                
@@ -19,7 +19,7 @@
             <?php
             foreach ($ordini as $ordine) { ?>
                     <td class="normal"><?= $ordine->getId() ?></td>
-                    <? if($ordine->getDomicilio() == "s"){?> <td>si</td> <? } else {?> <td>no</td> <? } ?>                 
+                    <td class="normal"><?= substr($ordine->getData(),0,10)?>              
                     <td class="normal"><?= $ordine->getStato() ?></td>
                     <td class="normal"><?= $ordine->getPrezzo() ?></td>
                     <td class="normal"><a href="cliente/ordini?cmd=dettaglio&ordine=<?= $ordine->getId() ?>" title="dettaglio_ordine">
