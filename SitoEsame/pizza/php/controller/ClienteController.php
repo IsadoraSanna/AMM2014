@@ -108,6 +108,7 @@ class ClienteController extends BaseController {
                         $vd->setSottoPagina('conferma_ordine');
                         $msg = array();
                         $idPizze = PizzaFactory::instance()->getIdPizze();
+                        
                         $nPizze = $this->validaForm($idPizze, $request);
                         $flagOrario = false;
                         
@@ -161,7 +162,7 @@ class ClienteController extends BaseController {
                         $ordine = OrdineFactory::instance()->getOrdine($ordineId);
                         $POs = Pizza_ordineFactory::instance()->getPOPerIdOrdine($ordine);
                         $vd->setSottoPagina('dettaglio_ordine');
-                        $this->showHomeCliente($vd);
+                        $this->showHomeUtente($vd);
                         break; 
                     
                     case 'conferma_ordine':
@@ -169,7 +170,7 @@ class ClienteController extends BaseController {
                         $ordineId = $request['ordineId'];                        
                         $this->creaFeedbackUtente($msg, $vd, "Ordine ".$ordineId." creato con successo.");
                         $vd->setSottoPagina('home');
-                        $this->showHomeCliente($vd);                        
+                        $this->showHomeUtente($vd);                        
                         break;
                     
                     case 'cancella_ordine':
@@ -182,7 +183,7 @@ class ClienteController extends BaseController {
                             $this->creaFeedbackUtente($msg, $vd, "Ordine ".$ordineId." cancellato.");
                         }else $this->creaFeedbackUtente($msg, $vd, "Errore cancellazione");
                         $vd->setSottoPagina('home');
-                        $this->showHomeCliente($vd);
+                        $this->showHomeUtente($vd);
                         break;
                         
                     // aggiornamento indirizzo
@@ -193,7 +194,7 @@ class ClienteController extends BaseController {
                         $msg = array();
                         $this->aggiornaIndirizzo($user, $request, $msg);
                         $this->creaFeedbackUtente($msg, $vd, "Indirizzo aggiornato");
-                        $this->showHomeUtente($vd);
+                        $this->showHomeCliente($vd);
                         break;
 
 
@@ -207,44 +208,8 @@ class ClienteController extends BaseController {
                         $this->showHomeCliente($vd);
                         break;
 
-                    // iscrizione ad un appello
-                    case 'iscrivi':
-                        // recuperiamo l'indice 
-                        $msg = array();
-                        $a = $this->getAppelloPerIndice($appelli, $request, $msg);
-                        if (isset($a)) {
-                            $isOk = $a->iscrivi($user);
-                            $count = AppelloFactory::instance()->aggiungiIscrizione($user, $a);
-                            if (!$isOk || $count != 1) {
-                                $msg[] = "<li> Impossibile cancellarti dall'appello specificato </li>";
-                            }
-                        } else {
-                            $msg[] = "<li> Impossibile iscriverti all'appello specificato. Verifica la capienza del corso </li>";
-                        }
 
-                        $this->creaFeedbackUtente($msg, $vd, "Ti sei iscritto all'appello specificato");
-                        $this->showHomeStudente($vd);
-                        break;
-
-                    // cancellazione da un appello
-                    case 'cancella':
-                        // recuperiamo l'indice 
-                        $msg = array();
-                        $a = $this->getAppelloPerIndice($appelli, $request, $msg);
-
-                        if (isset($a)) {
-                            $isOk = $a->cancella($user);
-                            $count = AppelloFactory::instance()->cancellaIscrizione($user, $a);
-                            if (!$isOk || $count != 1) {
-                                $msg[] = "<li> Impossibile cancellarti dall'appello specificato </li>";
-                            }
-                        } else {
-                            $msg[] = "<li> Impossibile cancellarti dall'appello specificato </li>";
-                        }
-                        $this->creaFeedbackUtente($msg, $vd, "Ti sei cancellato dall'appello specificato");
-                        $this->showHomeUtente($vd);
-                        break;
-                    default : $this->showLoginPage($vd);
+                    default : $this->showHomeUtente($vd);
                 }
             } else {
                 // nessun comando
@@ -265,10 +230,10 @@ class ClienteController extends BaseController {
     private function validaForm($idPizze , $request) {
          $valide = 0;
          foreach($idPizze as $idPizza){
-            $quantita = filter_var($request[$idPizza.'normali'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-            if (isset($quantita) && ($quantita != 0)) $valide+=$quantita;
-            $quantita = filter_var($request[$idPizza.'giganti'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-            if (isset($quantita) && ($quantita != 0)) $valide+=$quantita;   
+            $quantitaN = filter_var($request[$idPizza.'normali'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+            if (isset($quantitaN) && ($quantitaN != 0)) $valide+=$quantitaN;
+            $quantitaG = filter_var($request[$idPizza.'giganti'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+            if (isset($quantitaG) && ($quantitaG != 0)) $valide+=$quantitaG;   
          }
          
          return $valide;

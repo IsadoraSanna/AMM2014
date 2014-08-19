@@ -24,7 +24,7 @@
         <input type="text" name="cap" id="cap" value="<?= $user->getCap() ?>"/>
         <br/>
         <label for="cap">Telefono</label>
-        <input type="text" name="cap" id="telefono" value="<?= $user->getTelefono() ?>"/>
+        <input type="text" name="telefono" id="telefono" value="<?= $user->getTelefono() ?>"/>
         <br/>        
         <input type="submit" value="Salva"/>
     </form>

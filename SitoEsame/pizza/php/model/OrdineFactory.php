@@ -500,6 +500,7 @@ class OrdineFactory {
         $query = "SELECT * FROM ordini WHERE ordini.data = ? AND ordini.orario_id = ?"; 
       
         $newData = substr($data,0,4)."\\".substr($data,4,3)."\\".substr($data,7,3).'%';
+        //la forma della data per la query risulta per esempio 2014\-08\-19% per adattarsi all'sql
         
        $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {

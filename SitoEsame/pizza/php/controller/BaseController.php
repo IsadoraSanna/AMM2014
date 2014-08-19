@@ -121,7 +121,6 @@ class BaseController {
         $vd->setMenuFile(basename(__DIR__) . '/../view/addettoOrdini/menu.php');
         $vd->setLogoFile(basename(__DIR__) . '/../view/addettoOrdini/logo.php');
         $vd->setLeftBarFile(basename(__DIR__) . '/../view/addettoOrdini/leftBar.php');
-        $vd->setRightBarFile(basename(__DIR__) . '/../view/addettoOrdini/rightBar.php');
         $vd->setContentFile(basename(__DIR__) . '/../view/addettoOrdini/content.php');
     }
 
@@ -204,6 +203,11 @@ protected function aggiornaIndirizzo($user, &$request, &$msg) {
                 $msg[] = '<li>Il CAP specificato non &egrave; corretto</li>';
             }
         }
+        if (isset($request['telefono'])) {
+            if (!$user->setCap($request['telefono'])) {
+                $msg[] = '<li>Il telefono specificato non &egrave; corretto</li>';
+            }
+        }        
 
         // salviamo i dati se non ci sono stati errori
         if (count($msg) == 0) {

@@ -292,7 +292,7 @@ class UserFactory {
             return 0;
         }
 
-        if (!$stmt->bind_param('ssssisiii',
+        if (!$stmt->bind_param('ssssissii',
                 $c->getPassword(),
                 $c->getNome(),
                 $c->getCognome(),
@@ -341,7 +341,7 @@ class UserFactory {
             return 0;
         }
 
-        if (!$stmt->bind_param('ssssisiii', 
+        if (!$stmt->bind_param('ssssissii', 
                 $d->getPassword(), 
                 $d->getNome(), 
                 $d->getCognome(), 

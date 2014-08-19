@@ -23,7 +23,6 @@
             <?php foreach ($orari as $orario) { ?>
                 <option value="<?= $orario->getId() ?>" ><?= $orario->getFasciaOraria() ?></option>
             <?php } ?>
-                <option value="none" >tutto il giorno</option>
         </select>
         <button id="filtra" type="submit" name="cmd">Cerca</button>
     </form>
