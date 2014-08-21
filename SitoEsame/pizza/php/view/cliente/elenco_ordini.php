@@ -8,8 +8,8 @@
     <table>
         <thead>
             <tr>
-                <th class="esami-col-large">N. Ordine</th>
-                <th class="esami-col-small">Data</th>                
+                <th class="esami-col-small">N. Ordine</th>
+                <th class="esami-col-large">Data</th>                
                 <th class="esami-col-small">Stato</th>
                 <th class="esami-col-small">Prezzo</th>
                 <th class="esami-col-small">Dettaglio</th>                
