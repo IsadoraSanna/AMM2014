@@ -101,6 +101,7 @@ class ClienteController extends BaseController {
                     // logout
                     case 'logout':
                         $this->logout($vd);
+                        break;
                         
                     case 'procedi_ordine':
                         // in questo array inserisco i messaggi di 

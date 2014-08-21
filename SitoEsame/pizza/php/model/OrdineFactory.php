@@ -495,7 +495,7 @@ class OrdineFactory {
         return $date;        
     }    
    
-    public function ricercaPerDataOra($data, $oraId){
+    public function getOrdiniPerDataOra($data, $oraId){
         $ordini = array();
         $query = "SELECT * FROM ordini WHERE ordini.data = ? AND ordini.orario_id = ?"; 
       

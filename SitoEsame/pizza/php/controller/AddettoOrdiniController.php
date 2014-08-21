@@ -82,7 +82,7 @@ class AddettoOrdiniController extends BaseController {
                             $ora = null;
                         }
                         //var_dump("data ".$data." Ora " .$ora);
-                        $ordini = OrdineFactory::instance()->ricercaPerDataOra($data, $ora);
+                        $ordini = OrdineFactory::instance()->getOrdiniPerDataOra($data, $ora);
                         //i dati si vedono nel js ma non nel controller ne nel json
 
                         
