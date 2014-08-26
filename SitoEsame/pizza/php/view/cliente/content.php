@@ -2,6 +2,7 @@
 switch ($vd->getSottoPagina()) {
     case 'anagrafica':
         include_once 'anagrafica.php';
+        $_SESSION['pagina'] = 'anagrafica.php';
         break;
 
     case 'ordina':
@@ -27,6 +28,7 @@ switch ($vd->getSottoPagina()) {
     default:
         
         ?>
+        <? $_SESSION['pagina'] = 'content.php';?>
         <h2 class="icon-title" id="h-home">Pannello di Controllo</h2>
         
         <table class="content">
