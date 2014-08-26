@@ -7,13 +7,13 @@ $(document).ready(function () {
     $('#filtra').click(function(e){
         // impedisco il submit
         e.preventDefault(); 
-        var _mydata = $( "#mydata option:selected" ).attr('value');
-        var _myora = $( "#myora option:selected" ).attr('value');
+        var _myData = $( "#myData option:selected" ).attr('value');
+        var _myOra = $( "#myOra option:selected" ).attr('value');
 
         
         var par = {
-            myData:_mydata,
-            myOra: _myora
+            myData:_myData,
+            myOra: _myOra
         };
         
         $.ajax({
@@ -55,9 +55,9 @@ $(document).ready(function () {
                             
                             var colonne = $("#row_"+ i +" td");
                             $(colonne[0]).text(esami['id']);
-                            $(colonne[1]).text(esami['data']);
-                            $(colonne[2]).text(esami['ora']);
-                            $(colonne[3]).text(esami['cliente']);
+                            $(colonne[1]).text(esami['cliente']);
+                            $(colonne[2]).text(esami['idCliente']);
+                            $(colonne[3]).text(esami['stato']);
                             $(colonne[4]).text(esami['prezzo']);
 
                             i++;

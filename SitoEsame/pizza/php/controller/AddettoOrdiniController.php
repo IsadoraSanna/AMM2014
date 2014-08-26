@@ -70,14 +70,14 @@ class AddettoOrdiniController extends BaseController {
                         
                         $errori = array();
 
-                        if (isset($request['mydata']) && ($request['mydata'] != '')) {
-                            $data = $request['mydata'];
+                        if (isset($request['myData']) && ($request['myData'] != '')) {
+                            $data = $request['myData'];
                         } else {
                             $data = null;
                         }
 
-                        if (isset($request['myora']) && ($request['myora'] != '')) {
-                            $ora = $request['myora'];
+                        if (isset($request['myOra']) && ($request['myOra'] != '')) {
+                            $ora = $request['myOra'];
                         } else {
                             $ora = null;
                         }

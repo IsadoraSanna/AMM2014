@@ -69,10 +69,6 @@ if (!$vd->isJson()) {
                             require "$left";
                             ?>
                         </li>
-                        <li id="external">
-                            <h2 class="icon-title">Link esterni</h2>
-
-                        </li>
 
                     </ul>
                 </div>

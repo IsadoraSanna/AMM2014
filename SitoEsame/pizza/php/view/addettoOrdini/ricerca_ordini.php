@@ -4,9 +4,9 @@
 <h4>Seleziona i dettagli della ricerca</h4>
 <form method="get" action="addettoOrdini/ricerca_ordini">
     
-        <label for="mydata">Data</label>
-        <select name="mydata" id="mydata">
-            <option value="mydata"></option>
+        <label for="myData">Data</label>
+        <select name="myData" id="myData">
+            <option value="myData"></option>
             <?php foreach ($date as $data) { ?>
                 <option value="<?=substr($data,0,10)?>" ><?=substr($data,0,10)?></option>
             <?php } 
@@ -17,8 +17,8 @@
         </select>
 
         <br/>
-        <label for="myora">Fascia oraria</label>
-        <select name="myora" id="myora">
+        <label for="myOra">Fascia oraria</label>
+        <select name="myOra" id="myOra">
             <option value=""></option>
             <?php foreach ($orari as $orario) { ?>
                 <option value="<?= $orario->getId() ?>" ><?= $orario->getFasciaOraria() ?></option>
@@ -35,11 +35,11 @@
 <table id="tabella_ordini">
     <thead>
         <tr>
-            <th>id</th>
-            <th>data</th>
-            <th>ora</th>
-            <th>cliente</th>
-            <th>prezzo</th>
+            <th>Id ordine</th>
+            <th>Cliente</th>
+            <th>Id cliente</th>
+            <th>Stato</th>
+            <th>Prezzo</th>
         </tr>
     </thead>
     <tbody>

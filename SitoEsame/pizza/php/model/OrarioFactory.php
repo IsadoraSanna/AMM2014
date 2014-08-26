@@ -64,14 +64,14 @@ class OrarioFactory {
             error_log("[getPizzaPerId] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return $pizza;
+            return $orari;
         }
 
         if (!$stmt->bind_param('i', $orarioId)) {
             error_log("[getPizzaPerId] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return $pizza;
+            return $orari;
         }  
 
         $orari = self::caricaOrariDaStmt($stmt);
@@ -117,5 +117,6 @@ class OrarioFactory {
         $orari->setOrdiniDisponibili($row['ordiniDisponibili']);
         return $orari;
     }    
+   
 }
 ?>

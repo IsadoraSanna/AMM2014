@@ -29,41 +29,35 @@ switch ($vd->getSottoPagina()) {
         ?>
         <h2 class="icon-title" id="h-home">Pannello di Controllo</h2>
         
-        <table class="pControllo">
+        <table class="content">
             <tr>
                 <td class="noRighe"><a href="cliente/anagrafica" title="anagrafica">
                 <img src="../images/anagrafica.png" alt="anagrafica"></a></td>     
                 <td class="noRighe">
                     <h4>Anagrafica</h4>
-                    <p><i>verifica e modifica i dati personali</i></p>
+                    <p><i>Verifica e modifica i dati personali</i></p>
                 </td>                
-            </tr>             
-            <tr>
-                <td class="noRighe"></td>
+                <td class="noRighe"><a href="cliente/ordina" title="ordina">
+                <img src="../images/gestione.png" alt="ordina"></a></td>
                 <td class="noRighe">
                     <h4>Ordina</h4>
-                    <p><i>crea un nuovo ordine</i></p>
-                </td>
-                <td class="noRighe"><a href="cliente/ordina" title="ordina">
-                <img src="../images/gestione.png" alt="ordina"></a></td>                                               
-            </tr>     
+                    <p><i>Crea un nuovo ordine</i></p>
+                </td>                
+            </tr>                 
             <tr>
                 <td class="noRighe"><a href="cliente/elenco_ordini" title="elenco_ordini">
                 <img src="../images/ricerca.png" alt="elenco ordini"></a></td>
                 <td class="noRighe">
                     <h4>Elenco ordini</h4>
-                    <p><i>visualizza tutti gli ordini effettuati</i></p>                   
-                </td>                                               
-            </tr>  
-            <tr>
-                <td class="noRighe"></td>
+                    <p><i>Visualizza tutti gli ordini effettuati</i></p>                   
+                </td> 
+                <td class="noRighe"><a href="cliente/contatti" title="contatti">
+                <img src="../images/contatti.png" alt="contatti"></a></td>        
                 <td class="noRighe">
                     <h4>Contatti</h4>
-                    <p><i>i nostri riferimenti</i></p>
-                </td>
-                <td class="noRighe"><a href="cliente/contatti" title="contatti">
-                <img src="../images/contatti.png" alt="contatti"></a></td>                                               
-            </tr>             
+                    <p><i>I nostri riferimenti</i></p>
+                </td>                
+            </tr>           
         </table>       
         
 <?php break; } ?>
