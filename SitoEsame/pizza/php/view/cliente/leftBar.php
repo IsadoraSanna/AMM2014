@@ -4,7 +4,7 @@
 </p>
 <p>
 <?
-
+if(!isset($_SESSION['pagina'])) $_SESSION['pagina'] = 'home.php';
 switch ($_SESSION['pagina']) {
     case 'home.php':?>
         <p>
