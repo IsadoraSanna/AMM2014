@@ -1,8 +1,7 @@
 <?php
 switch ($vd->getSottoPagina()) {
     case 'anagrafica':
-        include_once 'anagrafica.php';
-        //$_SESSION['pagina'] = 'anagrafica.php';        
+        include_once 'anagrafica.php';       
         break;
 
     case 'ordina':
@@ -28,16 +27,17 @@ switch ($vd->getSottoPagina()) {
     default:
         
         ?>
-        <h2 class="icon-title" id="h-home">Pannello di Controllo</h2>
+        <h2>Pannello di Controllo</h2>
         
         <table class="content">
-            <tr>
-                <td class="noRighe"><a href="cliente/anagrafica" title="anagrafica">
-                <img src="../images/anagrafica.png" alt="anagrafica"></a></td>     
+            <tr>     
                 <td class="noRighe">
                     <h4>Anagrafica</h4>
                     <p><i>Verifica e modifica i dati personali</i></p>
-                </td>                
+                </td>     
+                <td class="noRighe"><a href="cliente/anagrafica" title="anagrafica">
+                <img src="../images/anagrafica.png" alt="anagrafica"></a></td> 
+                
                 <td class="noRighe"><a href="cliente/ordina" title="ordina">
                 <img src="../images/gestione.png" alt="ordina"></a></td>
                 <td class="noRighe">
@@ -46,12 +46,13 @@ switch ($vd->getSottoPagina()) {
                 </td>                
             </tr>                 
             <tr>
-                <td class="noRighe"><a href="cliente/elenco_ordini" title="elenco_ordini">
-                <img src="../images/ricerca.png" alt="elenco ordini"></a></td>
                 <td class="noRighe">
                     <h4>Elenco ordini</h4>
                     <p><i>Visualizza tutti gli ordini effettuati</i></p>                   
                 </td> 
+                <td class="noRighe"><a href="cliente/elenco_ordini" title="elenco_ordini">
+                <img src="../images/ricerca.png" alt="elenco ordini"></a></td>
+                
                 <td class="noRighe"><a href="cliente/contatti" title="contatti">
                 <img src="../images/contatti.png" alt="contatti"></a></td>        
                 <td class="noRighe">

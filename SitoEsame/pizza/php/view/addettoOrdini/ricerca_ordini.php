@@ -24,7 +24,9 @@
                 <option value="<?= $orario->getId() ?>" ><?= $orario->getFasciaOraria() ?></option>
             <?php } ?>
         </select>
+        <p>
         <button id="filtra" type="submit" name="cmd">Cerca</button>
+        </p>
     </form>
 
 <h2>Risultati</h2>

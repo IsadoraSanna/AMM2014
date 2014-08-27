@@ -473,7 +473,7 @@ class OrdineFactory {
     
     public function &getDate(){
         $date = array();
-        $query = "SELECT DISTINCT `data` FROM  `ordini`";
+        $query = "SELECT DISTINCT `data` FROM  `ordini` ORDER BY data DESC";
         $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {
             error_log("[getDate] impossibile inizializzare il database");

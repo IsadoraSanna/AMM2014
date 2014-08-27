@@ -8,7 +8,7 @@ if(!isset($_SESSION['pagina'])) $_SESSION['pagina'] = 'home.php';
 switch ($_SESSION['pagina']) {
     case 'home.php':?>
         <p>
-            Seleziona la voce che ti interessa sul menù.
+            Seleziona una voce dal menù.
         </p>
        <?break;
     case 'anagrafica.php':?>

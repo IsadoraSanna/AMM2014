@@ -14,7 +14,6 @@ include_once basename(__DIR__) . '/../model/OrdineFactory.php';
  */
 class AddettoOrdiniController extends BaseController {
 
-    const elenco = 'elenco';
 
     public function __construct() {
         parent::__construct();
@@ -51,11 +50,13 @@ class AddettoOrdiniController extends BaseController {
 
                     // inserimento di una lista di appelli
                     case 'gestione_ordini':
+                        $_SESSION['pagina'] = 'gestione_ordini.php';
                         $ordini = OrdineFactory::instance()->getOrdiniNonPagati();
                         $vd->setSottoPagina('gestione_ordini');
                         break;
                     
                     case 'ricerca_ordini':
+                        $_SESSION['pagina'] = 'ricerca_ordini.php';
                         $orari = OrarioFactory::instance()->getOrari();
                         $date = OrdineFactory::instance()->getDate();
                         $vd->setSottoPagina('ricerca_ordini');
@@ -89,6 +90,7 @@ class AddettoOrdiniController extends BaseController {
                         break;
 
                     default:
+                        $_SESSION['pagina'] = 'home.php';
                         $vd->setSottoPagina('home');
                         break;
                 }

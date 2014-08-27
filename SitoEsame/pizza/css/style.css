@@ -245,7 +245,8 @@ td.normal {
 /* stile delle tabelle per il pannello di controllo*/
 .content{
     border: 0px;
-    width: 550px;
+    width: 120%;
+    margin-right: 10%;
     table-layout: fixed;
     margin-top: 40px;
 }

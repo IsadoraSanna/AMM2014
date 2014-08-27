@@ -19,10 +19,10 @@ switch ($vd->getSottoPagina()) {
         
 
     <?php default: ?>
-        <h2 class="icon-title" id="h-home">Pannello di Controllo</h2>
+        <h2>Pannello di Controllo</h2>
 
 
-        <table class="pControllo">
+        <table class="content">
             <tr>
                 
                 <td class="noRighe">
@@ -32,8 +32,7 @@ switch ($vd->getSottoPagina()) {
                 <td class="noRighe"><a href="addettoOrdini/gestione_ordini" title="gestione_ordini">
                 <img src="../images/gestione.png" alt="gestione ordini"></a>
                 </td>                                               
-            </tr>     
-            <tr>
+ 
                 <td class="noRighe"><a href="addettoOrdini/ricerca_ordini" title="ricerca_ordini">
                 <img src="../images/ricerca.png" alt="ricerca ordini"></a>
                 </td>
