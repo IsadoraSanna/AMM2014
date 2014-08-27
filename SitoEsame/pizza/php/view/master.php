@@ -28,6 +28,7 @@ if (!$vd->isJson()) {
             <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico" />
             <link href="../css/style.css" rel="stylesheet" type="text/css" media="screen" />
             <?php
+             
             foreach ($vd->getScripts() as $script) {
                 ?>
                 <script type="text/javascript" src="<?= $script ?>"></script>

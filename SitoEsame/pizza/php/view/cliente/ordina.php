@@ -28,7 +28,7 @@
     <? } ?>
 </table>
 
-    <label for="domicilio">Consegna a domicilio</label>
+    <label for="domicilio">Consegna a domicilio*</label>
         <select name="domicilio" id="domicilio">
                 <option value="si" >si</option>
                 <option value="no" >no</option>

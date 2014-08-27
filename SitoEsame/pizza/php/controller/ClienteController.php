@@ -62,11 +62,13 @@ class ClienteController extends BaseController {
 
                     // modifica dei dati anagrafici
                     case 'anagrafica':
+                        $_SESSION['pagina'] = 'anagrafica.php';   
                         $vd->setSottoPagina('anagrafica');
                         break;
 
                     // visualizzazione degli esami sostenuti
                     case 'ordina':                        
+                        $_SESSION['pagina'] = 'ordina.php';
                         $pizze = PizzaFactory::instance()->getPizze();
                         $orari = OrarioFactory::instance()->getOrari();
                         $vd->setSottoPagina('ordina');
@@ -74,18 +76,18 @@ class ClienteController extends BaseController {
 
                     // visualizzazione degli esami sostenuti
                     case 'elenco_ordini':
+                        $_SESSION['pagina'] = 'elenco_ordini.php'; 
                         $ordini = OrdineFactory::instance()->getOrdiniPerIdCliente($user);
                         $vd->setSottoPagina('elenco_ordini');
                         break;                    
-                    case 'elenco_ordini':
-                        
-                        break;
+
                     // iscrizione ad un appello
                     case 'contatti':
+                        $_SESSION['pagina'] = 'contatti.php';  
                         $vd->setSottoPagina('contatti');
                         break;
                     default:
-
+                        $_SESSION['pagina'] = 'home.php';    
                         $vd->setSottoPagina('home');
                         break;
                 }

@@ -2,22 +2,22 @@
 switch ($vd->getSottoPagina()) {
     case 'anagrafica':
         include_once 'anagrafica.php';
-        $_SESSION['pagina'] = 'anagrafica.php';
+        //$_SESSION['pagina'] = 'anagrafica.php';        
         break;
 
     case 'ordina':
-        include_once 'ordina.php';
+        include_once 'ordina.php';      
         break;   
     case 'elenco_ordini':
-        include_once 'elenco_ordini.php';
+        include_once 'elenco_ordini.php';       
         break;
     
     case 'contatti':
-        include_once 'contatti.php';
+        include_once 'contatti.php';        
         break;
     
     case 'dettaglio_ordine':
-       include_once 'dettaglio_ordine.php';
+       include_once 'dettaglio_ordine.php';         
        break;
 
     case 'conferma_ordine':
@@ -28,7 +28,6 @@ switch ($vd->getSottoPagina()) {
     default:
         
         ?>
-        <? $_SESSION['pagina'] = 'content.php';?>
         <h2 class="icon-title" id="h-home">Pannello di Controllo</h2>
         
         <table class="content">
