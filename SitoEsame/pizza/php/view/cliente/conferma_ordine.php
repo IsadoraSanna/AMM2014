@@ -14,11 +14,11 @@
     <table>
 
             <tr>
-                <th class="esami-col-small">Pizza</th>
-                <th class="esami-col-small">Dimensione</th>                
-                <th class="esami-col-small">Quantita</th>
-                <th class="esami-col-small">Prezzo</th>      
-                <th class="esami-col-small">Prezzo TOT</th>                 
+                <th class="col-small">Pizza</th>
+                <th class="col-small">Dimensione</th>                
+                <th class="col-small">Quantita</th>
+                <th class="col-small">Prezzo</th>      
+                <th class="col-small">Prezzo TOT</th>                 
             </tr>     
 
     <?foreach ($POs as $PO) {
@@ -27,25 +27,24 @@
                 <td><?= $pizza->getNome()?></td>
                 <td><?= $PO->getDimensione() ?></td>
                 <td><?= $PO->getQuantita() ?></td>
-                <?if ($domicilioSi) {?> <td><?= $pizza->getPrezzo() ?></td>
-                <?}else {?> <td><?= $pizza->getPrezzo()+($pizza->getPrezzo()*30/100) . "€ ";}?></td>   
-                <td><?= Pizza_ordineFactory::instance()->getPrezzoSingolo($PO) ?></td>                               
+                <td><?= (Pizza_ordineFactory::instance()->getPrezzoPerPizze($PO)/$PO->getQuantita()) . "€ "?></td>
+                <td><?= Pizza_ordineFactory::instance()->getPrezzoPerPizze($PO) . "€ "?></td>                               
                    
             </tr>
     <? } ?>    
              <tr>
-                <th class="esami-col-small">Fascia oraria</th> 
-                <th class="esami-col-small">Domicilio</th>
-                <th class="esami-col-small">Prezzo Domicilio</th>                
-                <th class="esami-col-small">Prezzo Pizze</th>
-                <th class="esami-col-small">Prezzo Totale</th>                     
+                <th class="col-large">Fascia oraria</th> 
+                <th class="col-small">Domicilio</th>
+                <th class="col-small">Prezzo Domicilio</th>                
+                <th class="col-small">Prezzo Pizze</th>
+                <th class="col-small">Prezzo Totale</th>                     
             </tr>       
             <tr>
                 <td><?= OrdineFactory::instance()->getValoreOrario($ordine->getOrario()) ?></td>
                 <td><? if($domicilioSi){?>si<? } else {?>no<? } ?></td>            
                 <td><? if($domicilioSi){?>1.5<? } else {?>0<? } ?></td>
-                <td><?= Pizza_ordineFactory::instance()->getPrezzoParziale($ordine) ?></td>                 
-                <td><?= OrdineFactory::instance()->getPrezzoTotale($ordine) ?></td>                 
+                <td><?= Pizza_ordineFactory::instance()->getPrezzoParziale($ordine) . "€ " ?></td>                 
+                <td><?= OrdineFactory::instance()->getPrezzoTotale($ordine) . "€ " ?></td>                 
             </tr>
     </table>        
     <button type="submit" name="cmd" value="conferma_ordine">Conferma</button>

@@ -10,9 +10,7 @@ class Pizza {
     private $ingredienti;
     
     private $prezzo;
-    
-    private $immagine;
-    
+
     
    public function __construct() {
         
@@ -56,13 +54,5 @@ class Pizza {
         $this->prezzo = $prezzo;
     }
     
-    public function setImmagine($immagine) {
-        $this->immagine = $immagine;
-        return true;
-    }
-
-    public function getImmagine() {
-        return $this->immagine;
-    }
 }
 ?>

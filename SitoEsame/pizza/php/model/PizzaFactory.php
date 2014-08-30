@@ -54,7 +54,6 @@ class PizzaFactory {
         $pizza->setNome($row['nome']);
         $pizza->setIngredienti($row['ingredienti']);
         $pizza->setPrezzo($row['prezzo']);
-        $pizza->setImmagine($row['immagine']);
         return $pizza;
     }
 
@@ -104,8 +103,7 @@ class PizzaFactory {
                 $row['id'], 
                 $row['nome'],
                 $row['ingredienti'],
-                $row['prezzo'],
-                $row['immagine']);
+                $row['prezzo']);
 
         if (!$bind) {
             error_log("[caricaPizzaDaStmt] impossibile" .
@@ -148,7 +146,10 @@ class PizzaFactory {
 
         $mysqli->close();
         return $pizzeId;
-    }    
+    }  
+    
+    
+    
 }
 
 ?>

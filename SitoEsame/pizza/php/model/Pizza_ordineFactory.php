@@ -99,7 +99,10 @@ class Pizza_ordineFactory {
         return $stmt->affected_rows;        
     }
     
-    public function getPrezzoSingolo(Pizza_ordine $PO){
+
+
+  //fornisce il prezzo di un insieme di pizze dello stesso tipo appartenente allo stesso ordine valutandone la dimensione  
+    public function getPrezzoPerPizze(Pizza_ordine $PO){
         $query = "SELECT
                 pizze_ordini.quantita quantita,
                 pizze_ordini.dimensione dimensione,
@@ -138,6 +141,7 @@ class Pizza_ordineFactory {
         return $prezzo;         
     
     }
+    //calcola il prezzo totale dell'ordine senza aggiungere i costi del trasporto a domicilio
     public function getPrezzoParziale(Ordine $ordine){
         
         $query = "SELECT

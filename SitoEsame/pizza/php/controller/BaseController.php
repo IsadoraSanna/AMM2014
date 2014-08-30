@@ -91,7 +91,6 @@ class BaseController {
         $vd->setMenuFile(basename(__DIR__) . '/../view/login/menu.php');
         $vd->setLogoFile(basename(__DIR__) . '/../view/login/logo.php');
         $vd->setLeftBarFile(basename(__DIR__) . '/../view/login/leftBar.php');
-        $vd->setRightBarFile(basename(__DIR__) . '/../view/login/rightBar.php');
         $vd->setContentFile(basename(__DIR__) . '/../view/login/content.php');
     }
 
@@ -204,7 +203,7 @@ protected function aggiornaIndirizzo($user, &$request, &$msg) {
             }
         }
         if (isset($request['telefono'])) {
-            if (!$user->setCap($request['telefono'])) {
+            if (!$user->setTelefono($request['telefono'])) {
                 $msg[] = '<li>Il telefono specificato non &egrave; corretto</li>';
             }
         }        

@@ -65,11 +65,11 @@ class UserFactory {
             return null;
         }
 
-        $cliente = self::caricaClienteDaStmt($stmt);
-        if (isset($cliente)) {
+        $addettoOrdini = self::caricaClienteDaStmt($stmt);
+        if (isset($addettoOrdini)) {
             // ho trovato uno studente
             $mysqli->close();
-            return $cliente;
+            return $addettoOrdini;
         }
 
         // ora cerco un docente
@@ -110,16 +110,16 @@ class UserFactory {
 
         $row = array();
         $bind = $stmt->bind_result(
-                $row['cliente_id'], 
-                $row['cliente_username'], 
-                $row['cliente_password'],                
-                $row['cliente_nome'], 
-                $row['cliente_cognome'], 
-                $row['cliente_via'],
-                $row['cliente_civico'],
-                $row['cliente_cap'],
-                $row['cliente_citta'],
-                $row['cliente_telefono']);
+                $row['addettoOrdini_id'], 
+                $row['addettoOrdini_username'], 
+                $row['addettoOrdini_password'],                
+                $row['addettoOrdini_nome'], 
+                $row['addettoOrdini_cognome'], 
+                $row['addettoOrdini_via'],
+                $row['addettoOrdini_civico'],
+                $row['addettoOrdini_cap'],
+                $row['addettoOrdini_citta'],
+                $row['addettoOrdini_telefono']);
         
         if (!$bind) {
             error_log("[caricaClienteDaStmt] impossibile" .
@@ -170,20 +170,20 @@ class UserFactory {
      * @return \Cliente
      */
     public function creaClienteDaArray($row) {
-        $cliente = new Cliente();
-        $cliente->setId($row['cliente_id']); 
-        $cliente->setUsername($row['cliente_username']);
-        $cliente->setPassword($row['cliente_password']);        
-        $cliente->setNome($row['cliente_nome']);    
-        $cliente->setCognome($row['cliente_cognome']);
-        $cliente->setVia($row['cliente_via']);
-        $cliente->setCivico($row['cliente_civico']);
-        $cliente->setCitta($row['cliente_citta']);                  
-        $cliente->setCap($row['cliente_cap']);
-        $cliente->setTelefono($row['cliente_telefono']);        
-        $cliente->setRuolo(User::Cliente);
+        $addettoOrdini = new Cliente();
+        $addettoOrdini->setId($row['addettoOrdini_id']); 
+        $addettoOrdini->setUsername($row['addettoOrdini_username']);
+        $addettoOrdini->setPassword($row['addettoOrdini_password']);        
+        $addettoOrdini->setNome($row['addettoOrdini_nome']);    
+        $addettoOrdini->setCognome($row['addettoOrdini_cognome']);
+        $addettoOrdini->setVia($row['addettoOrdini_via']);
+        $addettoOrdini->setCivico($row['addettoOrdini_civico']);
+        $addettoOrdini->setCitta($row['addettoOrdini_citta']);                  
+        $addettoOrdini->setCap($row['addettoOrdini_cap']);
+        $addettoOrdini->setTelefono($row['addettoOrdini_telefono']);        
+        $addettoOrdini->setRuolo(User::Cliente);
 
-        return $cliente;
+        return $addettoOrdini;
     }
     
     /**
@@ -283,8 +283,8 @@ class UserFactory {
                     citta = ?,
                     cap = ?,
                     telefono = ?
-                    WHERE clienti.id = ?
-                    ";
+                    WHERE clienti.id = ?";
+        
         $stmt->prepare($query);
         if (!$stmt) {
             error_log("[salvaCliente] impossibile" .
@@ -381,15 +381,15 @@ class UserFactory {
         $row = array();
         $bind = $stmt->bind_result(
                 $row['addettoOrdini_id'], 
+                $row['addettoOrdini_username'], 
+                $row['addettoOrdini_password'],                
                 $row['addettoOrdini_nome'], 
                 $row['addettoOrdini_cognome'], 
-                $row['addettoOrdini_citta'],
-                $row['addettoOrdini_cap'],
                 $row['addettoOrdini_via'],
                 $row['addettoOrdini_civico'],
-                $row['addettoOrdini_telefono'],
-                $row['addettoOrdini_username'], 
-                $row['addettoOrdini_password']);
+                $row['addettoOrdini_cap'],
+                $row['addettoOrdini_citta'],
+                $row['addettoOrdini_telefono']);
         if (!$bind) {
             error_log("[caricaAddettoOrdiniDaStmt] impossibile" .
                     " effettuare il binding in output");
@@ -481,14 +481,14 @@ class UserFactory {
                 
     }
     public function getClientePerId($id) {
-       $cliente = array();
+       $addettoOrdini = array();
         $query = "SELECT * FROM clienti WHERE clienti.id = ? ";          
         
         $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {
             error_log("[getClientePerId] impossibile inizializzare il database");
             $mysqli->close();
-            return $cliente;
+            return $addettoOrdini;
         }
 
         $stmt = $mysqli->stmt_init();
@@ -497,20 +497,20 @@ class UserFactory {
             error_log("[getClientePerId] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return $cliente;
+            return $addettoOrdini;
         }
 
         if (!$stmt->bind_param('i', $id)) {
             error_log("[getClientePerId] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return $cliente;
+            return $addettoOrdini;
         } 
         
-        $cliente = self::caricaClienteDaStmt($stmt);
+        $addettoOrdini = self::caricaClienteDaStmt($stmt);
 
         $mysqli->close();
-        return $cliente;        
+        return $addettoOrdini;        
                 
     }
 }

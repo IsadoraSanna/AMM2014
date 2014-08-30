@@ -18,12 +18,12 @@
     <?foreach ($pizze as $pizza) {
         ?>
         <tr>
-            <td class="esami-col-small"><?= $pizza->getNome() ?></td>
-            <td class="esami-col-large"><?= $pizza->getIngredienti() ?></td>
-            <td class="esami-col-small"><input type="number" name=<?= $pizza->getId()."normali" ?> maxlength="2" size="2" min="0" max="10"></td>            
-            <td class="esami-col-small"><?= $pizza->getPrezzo() . "€ "?></td>
-            <td class="esami-col-small"><input type="number" name=<?= $pizza->getId()."giganti" ?> maxlength="2" size="2" min="0" max="10"></td>
-            <td class="esami-col-small"><?= $pizza->getPrezzo()+($pizza->getPrezzo()*30/100) . "€ "?></td>            
+            <td class="col-small"><?= $pizza->getNome() ?></td>
+            <td class="col-large"><?= $pizza->getIngredienti() ?></td>
+            <td class="col-small"><input type="number" name=<?= $pizza->getId()."normali" ?> maxlength="2" size="2" min="0" max="10"></td>            
+            <td class="col-small"><?= $pizza->getPrezzo() . "€ "?></td>
+            <td class="col-small"><input type="number" name=<?= $pizza->getId()."giganti" ?> maxlength="2" size="2" min="0" max="10"></td>
+            <td class="col-small"><?= $pizza->getPrezzo()+($pizza->getPrezzo()*30/100) . "€ "?></td>            
         </tr>
     <? } ?>
 </table>

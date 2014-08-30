@@ -42,7 +42,7 @@ switch ($_SESSION['pagina']) {
        <?break;  
     case 'contatti.php':?>
         <p>
-            Ci trovi sempre aperti dal martedì alla domenica dalle 19.30 alle 22.00.
+            Ci trovi sempre aperti dal martedì alla domenica dalle <strong>19.30</strong> alle <strong>22.00</strong>. Lunedì chiuso.
         </p>
         <p>
             Per qualsiasi informazione non eistare a contattarci.

@@ -99,13 +99,13 @@ class OrdineFactory {
             $mysqli->close();
             return 0;
         }
-        $prezzo = Pizza_ordineFactory::instance()->getPrezzoParziale($ordine); 
+        $prezzo = OrdineFactory::instance()->getPrezzoTotale($ordine); 
         $data = date('Y-m-d');
         $orario = $ordine->getOrario();
         $cliente_id = $user->getId();
         $addetto_id = 1;
         $stato = "non pagato";
-        if (!$stmt->bind_param('sissiiii',
+        if (!$stmt->bind_param('sdssiiii',
                 $domicilio,
                 $prezzo,
                 $stato,
@@ -131,6 +131,13 @@ class OrdineFactory {
         $mysqli->close();
         return $stmt->affected_rows;        
     }
+    
+    public function getPrezzoTotale(Ordine $ordine){
+        $domicilio = 1.5;
+        $prezzoParziale = Pizza_ordineFactory::instance()->getPrezzoParziale($ordine);
+        if ($ordine->getDomicilio() == "s") return  $prezzoParziale + $domicilio;
+        else return $prezzoParziale;
+    }    
     
     public function getValoreOrario($orarioId){
         $query = "select orari.fasciaOraria             
@@ -237,12 +244,6 @@ class OrdineFactory {
         
     }   
     
-    public function getPrezzoTotale(Ordine $ordine){
-        $domicilio = 1.5;
-        $prezzoParziale = Pizza_ordineFactory::instance()->getPrezzoParziale($ordine);
-        if ($ordine->getDomicilio() == "s") return  $prezzoParziale + $domicilio;
-        else return $prezzoParziale;
-    }
     
     public function getOrdine($id){
 
