@@ -24,6 +24,8 @@ switch ($_SESSION['pagina']) {
         <p>
             Ricerca tutti gli ordini gestiti tramite il sito scegliendo una particolare data e la relativa fascia oraria.
         </p>
-       <?break;    
+       <?break; 
+   default:
+       break;   
 }
 ?>

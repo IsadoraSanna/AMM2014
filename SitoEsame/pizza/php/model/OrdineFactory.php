@@ -86,18 +86,18 @@ class OrdineFactory {
         
         $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {
-            error_log("[nuovoOrdine] impossibile inizializzare il database");
-            return 0;
+            error_log("[aggiornaOrdine] impossibile inizializzare il database");
+            return false;
         }
 
         $stmt = $mysqli->stmt_init();
 
         $stmt->prepare($query);
         if (!$stmt) {
-            error_log("[nuovoOrdine] impossibile" .
+            error_log("[aggiornaOrdine] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return 0;
+            return false;
         }
         $prezzo = OrdineFactory::instance()->getPrezzoTotale($ordine); 
         $data = date('Y-m-d');
@@ -114,22 +114,30 @@ class OrdineFactory {
                 $addetto_id,
                 $orario,
                 $ordine->getId())) {
-            error_log("[nuovoOrdine] impossibile" .
+            error_log("[aggiornaOrdine] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return 0;
+            return false;
         }
-
+        
+       // inizio la transazione  
+       $mysqli->autocommit(false);
 
         if (!$stmt->execute()) {
-            error_log("[nuovoOrdine] impossibile" .
+            error_log("[aggiornaOrdine] impossibile" .
                     " eseguire lo statement");
             $mysqli->close();
-            return 0;
+            $mysqli->rollback();
+            $mysqli->close();
+            return false;
         }
-
+        
+        //la transazione è andata a buon fine
+        $mysqli->commit();
+        $mysqli->autocommit(true);
         $mysqli->close();
-        return $stmt->affected_rows;        
+
+        return true;        
     }
     
     public function getPrezzoTotale(Ordine $ordine){

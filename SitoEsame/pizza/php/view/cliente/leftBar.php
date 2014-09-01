@@ -48,6 +48,8 @@ switch ($_SESSION['pagina']) {
             Per qualsiasi informazione non eistare a contattarci.
         </p>
        <?break;   
+   default:
+       break;
 }
 ?>
 </p>

@@ -76,7 +76,7 @@
             <li>Utilizzo di PHP e MySQL</li>
             <li>Utilizzo del pattern MVC </li>
             <li>Due ruoli (cliente e addettoOrdini)</li>
-            <li>Transazione -> da fare</li>
+            <li>Transazione per il salvataggio(aggiornamento) di un nuovo ordine. Visibile all'interno della classe OrdineFactory.php metodo aggiornaOrdine</li>
             <li>Caricamento ajax dei risultati della ricerca degli ordini da parte dell'addetto agli ordini</li>
 
         </ul>
