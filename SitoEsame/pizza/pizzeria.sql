@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Ago 16, 2014 alle 10:42
+-- Generato il: Set 02, 2014 alle 18:38
 -- Versione del server: 5.5.35
 -- Versione PHP: 5.4.6-1ubuntu1.7
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `addettoOrdini` (
   `cognome` varchar(128) COLLATE utf8_bin DEFAULT NULL,
   `via` varchar(128) COLLATE utf8_bin DEFAULT NULL,
   `civico` int(10) unsigned DEFAULT NULL,
-  `cap` int(5) unsigned DEFAULT NULL,
+  `cap` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `citta` varchar(128) COLLATE utf8_bin DEFAULT NULL,
   `telefono` int(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `addettoOrdini` (
 --
 
 INSERT INTO `addettoOrdini` (`id`, `username`, `password`, `nome`, `cognome`, `via`, `civico`, `cap`, `citta`, `telefono`) VALUES
-(1, 'addetto', '', 'mario', 'rossi', 'roma', 115, NULL, NULL, 444444444);
+(1, 'addetto', '', 'Mario', 'Rossi', 'roma', 115, '09124', 'Cagliari', 444444444);
 
 -- --------------------------------------------------------
 
@@ -60,8 +60,8 @@ CREATE TABLE IF NOT EXISTS `clienti` (
   `nome` varchar(128) COLLATE utf8_bin DEFAULT NULL,
   `cognome` varchar(128) COLLATE utf8_bin DEFAULT NULL,
   `via` varchar(128) COLLATE utf8_bin DEFAULT NULL,
-  `civico` int(10) unsigned DEFAULT NULL,
-  `cap` int(20) unsigned DEFAULT NULL,
+  `civico` int(10) DEFAULT NULL,
+  `cap` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `citta` varchar(128) COLLATE utf8_bin DEFAULT NULL,
   `telefono` int(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `clienti` (
 --
 
 INSERT INTO `clienti` (`id`, `username`, `password`, `nome`, `cognome`, `via`, `civico`, `cap`, `citta`, `telefono`) VALUES
-(1, 'isadora', '', 'isadora', 'sanna', 'Oberdan', 4, 333333333, 'assemini', 333333333);
+(1, 'isadora', '', 'Isadora', 'Sanna', 'Roma', 30, '09033', 'Assemini', 345555556);
 
 -- --------------------------------------------------------
 
@@ -123,7 +123,7 @@ INSERT INTO `orari` (`id`, `fasciaOraria`, `ordiniDisponibili`) VALUES
 
 CREATE TABLE IF NOT EXISTS `ordini` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `domicilio` varchar(1) COLLATE utf8_bin DEFAULT NULL,
+  `domicilio` varchar(2) COLLATE utf8_bin DEFAULT NULL,
   `prezzo` float unsigned DEFAULT NULL,
   `stato` varchar(128) COLLATE utf8_bin DEFAULT NULL,
   `data` datetime DEFAULT NULL,
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `ordini` (
   KEY `ordini_ibfk_1` (`cliente_id`),
   KEY `ordini_ibfk_2` (`addettoOrdini_id`),
   KEY `ordini_ibfk_3` (`orario_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -147,17 +147,32 @@ CREATE TABLE IF NOT EXISTS `pizze` (
   `nome` varchar(128) COLLATE utf8_bin DEFAULT NULL,
   `ingredienti` varchar(256) COLLATE utf8_bin DEFAULT NULL,
   `prezzo` float unsigned DEFAULT NULL,
-  `immagine` varchar(128) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=21 ;
 
 --
 -- Dump dei dati per la tabella `pizze`
 --
 
-INSERT INTO `pizze` (`id`, `nome`, `ingredienti`, `prezzo`, `immagine`) VALUES
-(1, 'Margherita', 'pom, mozz', 4, NULL),
-(2, 'Napoli', 'pom, mozz, acciughe, capperi', 5, NULL);
+INSERT INTO `pizze` (`id`, `nome`, `ingredienti`, `prezzo`) VALUES
+(1, 'Margherita', 'pom., mozz.', 3),
+(2, 'Napoli', 'pom., mozz., acciughe, capperi', 3.5),
+(3, 'Calzone', 'pom., mozz., prosc., funghi', 4.5),
+(4, 'Prosciutto crudo', 'pom., mozz., prosc. crudo', 5),
+(6, 'Tonno e cipolla', 'pom., mozz., tonno, cipolla', 5),
+(7, '4 stagioni', 'pom., mozz., prosc., funghi, wur, olive, carc', 5.5),
+(8, '4 formaggi', 'pom., mozz., gorg., grov., pecor., parmig.', 5.5),
+(9, 'Caprese', 'pom., mozz., pom. fresco, origano', 4),
+(10, 'Sarda', 'pom., mozz., salsiccia secca, pecorino', 5.5),
+(11, 'Rustica', 'pom., mozz., funghi di carne, patate', 5.5),
+(12, 'Panna e salmone', 'pom., mozz., salmone, panna', 7),
+(14, 'Rucola e grana', 'pom., mozz., rucola, grana', 4.5),
+(15, 'Frutti di mare', 'pom., mozz., frutti di mare', 6.5),
+(16, 'Carbonara', 'pom., mozz., uovo, pancetta', 6.5),
+(17, 'Carlofortina', 'pom., mozz., pesto, pomodorini, tonno', 6),
+(18, 'Saporita', 'pom., mozz., salsiccia fr., gorgonzola', 6.5),
+(19, 'Bufala', 'pom., mozzarella di bufala', 5),
+(20, 'Tirolese', 'pom., mozz., speck, gorgonzola', 6);
 
 -- --------------------------------------------------------
 
@@ -174,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `pizze_ordini` (
   PRIMARY KEY (`id`),
   KEY `pizze_ordini_ibfk_1` (`pizza_id`),
   KEY `pizze_ordini_ibfk_2` (`ordine_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=208 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=278 ;
 
 --
 -- Limiti per le tabelle scaricate
