@@ -24,7 +24,14 @@ class Pizza_ordineFactory {
         return self::$singleton;
     }
     
-    
+    /*
+     * La funzione crea un nuovo PO
+    * @param $idPizza id della pizza considerata
+    * @param $idOrdine id dell'ordine considerato
+    * @param $quantita di pizze
+    * @param $dimensione delle pizze
+    * @return il numero di righe create
+    */    
     public function creaPO($idPizza, $idOrdine, $quantita, $dimensione) {
         $query = "INSERT INTO `pizze_ordini`(`pizza_id`, `ordine_id`, `quantita`, `dimensione`) VALUES (?, ?, ?, ?)";
 
@@ -61,13 +68,18 @@ class Pizza_ordineFactory {
         $mysqli->close();
         return $stmt->affected_rows;
     }
-    
+
+    /*
+     * La funzione cancella PO
+    * @param $id id dell'ordine considerato
+    * @return il numero di righe cancellate
+    */    
     public function cancellaPO($id){
         $query = "delete from pizze_ordini where ordine_id = ?";
         
         $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {
-            error_log("[cancellaPerId] impossibile inizializzare il database");
+            error_log("[cancellaPO] impossibile inizializzare il database");
             return false;
         }
 
@@ -75,21 +87,21 @@ class Pizza_ordineFactory {
 
         $stmt->prepare($query);
         if (!$stmt) {
-            error_log("[cancellaOrdine] impossibile" .
+            error_log("[cancellaPO] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
             return false;
         }
 
         if (!$stmt->bind_param('i', $id)){
-        error_log("[cancellaOrdine] impossibile" .
+        error_log("[cancellaPO] impossibile" .
                 " effettuare il binding in input");
         $mysqli->close();
         return false;
         }
 
         if (!$stmt->execute()) {
-            error_log("[cancellaOrdine] impossibile" .
+            error_log("[cancellaPO] impossibile" .
                     " eseguire lo statement");
             $mysqli->close();
             return false;
@@ -100,8 +112,11 @@ class Pizza_ordineFactory {
     }
     
 
-
-  //fornisce il prezzo di un insieme di pizze dello stesso tipo appartenente allo stesso ordine valutandone la dimensione  
+    /*
+    * La funzione fornisce il prezzo di un insieme di pizze dello stesso tipo appartenente allo stesso ordine valutandone la dimensione  
+    * @param $PO PO di riferimento
+    * @return il prezzo dell'insieme di pizze
+    */    
     public function getPrezzoPerPizze(Pizza_ordine $PO){
         $query = "SELECT
                 pizze_ordini.quantita quantita,
@@ -114,25 +129,25 @@ class Pizza_ordineFactory {
 
         $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {
-            error_log("[getPrezzoParziale] impossibile inizializzare il database");
+            error_log("[getPrezzoPerPizze] impossibile inizializzare il database");
             $mysqli->close();
-            return true;
+            return false;
         }
 
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
         if (!$stmt) {
-            error_log("[getPrezzoParziale] impossibile" .
+            error_log("[getPrezzoPerPizze] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return true;
+            return false;
         }
 
         if (!$stmt->bind_param('i', $PO->getId())) {
-            error_log("[getPrezzoParziale] impossibile" .
+            error_log("[getPrezzoPerPizze] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return true;
+            return false;
         }
 
         $prezzo = self::caricaPrezzoPODaStmt($stmt);
@@ -141,7 +156,12 @@ class Pizza_ordineFactory {
         return $prezzo;         
     
     }
-    //calcola il prezzo totale dell'ordine senza aggiungere i costi del trasporto a domicilio
+
+    /*
+    * La funzione calcola il prezzo totale dell'ordine senza aggiungere i costi del trasporto a domicilio
+    * @param $ordine ordine di riferimento
+    * @return prezzo dell'ordine
+    */       
     public function getPrezzoParziale(Ordine $ordine){
         
         $query = "SELECT
@@ -166,14 +186,14 @@ class Pizza_ordineFactory {
             error_log("[getPrezzoParziale] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return true;
+            return false;
         }
 
         if (!$stmt->bind_param('i', $ordine->getId())) {
             error_log("[getPrezzoParziale] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return true;
+            return false;
         }
 
         $prezzo = self::caricaPrezzoPODaStmt($stmt);
@@ -213,7 +233,11 @@ class Pizza_ordineFactory {
 
         return $prezzo;
     }         
-    
+
+    /*
+    * @param $id id dell'ordine di riferimento
+    * @return la quantità di pizze relative all'ordine di riferimento
+    */    
     public function getNPizze($id){
         $query = "SELECT 
             pizze_ordini.quantita quantita 
@@ -233,18 +257,18 @@ class Pizza_ordineFactory {
             error_log("[getNPizze] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return true;
+            return null;
         }
 
         if (!$stmt->bind_param('i', $id)) {
-            error_log("[getPrezzoParziale] impossibile" .
+            error_log("[getNPizze] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return true;
+            return null;
         }
 
        if (!$stmt->execute()) {
-            error_log("[caricaPrezzoPODaStmt] impossibile" .
+            error_log("[getNPizze] impossibile" .
                     " eseguire lo statement");
             return null;
         }
@@ -253,7 +277,7 @@ class Pizza_ordineFactory {
         $bind = $stmt->bind_result($row['quantita']);
 
         if (!$bind) {
-            error_log("[caricaPrezzoPODaStmt] impossibile" .
+            error_log("[getNPizze] impossibile" .
                     " effettuare il binding in output");
             return null;
         }
@@ -266,6 +290,10 @@ class Pizza_ordineFactory {
         return $nPizze;                
     }
 
+    /*
+    * @param $orarioId id dell'orario di riferimento
+    * @return il numero di pizze gia ordinate in quella giornata per la fascia oraria di riferimento
+    */      
     public function getNPizzePerOrario($orarioId){
         $query = "SELECT 
             pizze_ordini.quantita quantita 
@@ -277,7 +305,7 @@ class Pizza_ordineFactory {
         $data = date('Y\-m\-d').'%';
         $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {
-            error_log("[getNPizzePerOrdine] impossibile inizializzare il database");
+            error_log("[getNPizzePerOrario] impossibile inizializzare il database");
             $mysqli->close();
             return true;
         }
@@ -285,21 +313,21 @@ class Pizza_ordineFactory {
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
         if (!$stmt) {
-            error_log("[getNPizzePerOrdine] impossibile" .
+            error_log("[getNPizzePerOrario] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return true;
+            return null;
         }
 
         if (!$stmt->bind_param('is', $orarioId, $data)) {
-            error_log("[getNPizzePerOrdine] impossibile" .
+            error_log("[getNPizzePerOrario] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return true;
+            return null;
         }
 
        if (!$stmt->execute()) {
-            error_log("[getNPizzePerOrdine] impossibile" .
+            error_log("[getNPizzePerOrario] impossibile" .
                     " eseguire lo statement");
             return null;
         }
@@ -308,7 +336,7 @@ class Pizza_ordineFactory {
         $bind = $stmt->bind_result($row['quantita']);
 
         if (!$bind) {
-            error_log("[getNPizzePerOrdine] impossibile" .
+            error_log("[getNPizzePerOrario] impossibile" .
                     " effettuare il binding in output");
             return null;
         }
@@ -320,7 +348,11 @@ class Pizza_ordineFactory {
         $mysqli->close();
         return $nPizze;                
     }        
-    
+
+    /*
+    * @param $ordine ordine di riferimento
+    * @return un determinato record in cui l'id dell'ordine è uguale a quello dato come riferimento
+    */     
     public function getPOPerIdOrdine(Ordine $ordine){
         $po = array();
         $query = "SELECT *             
@@ -331,7 +363,7 @@ class Pizza_ordineFactory {
         if (!isset($mysqli)) {
             error_log("[getPOPerIdOrdine] impossibile inizializzare il database");
             $mysqli->close();
-            return $po;
+            return 0;
         }
 
         $stmt = $mysqli->stmt_init();
@@ -340,14 +372,14 @@ class Pizza_ordineFactory {
             error_log("[getPOPerIdOrdine] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return $po;
+            return 0;
         }
 
         if (!$stmt->bind_param('i', $ordine->getId())) {
             error_log("[getPOPerIdOrdine] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return $po;
+            return 0;
         }        
         
         $po = self::caricaPODaStmt($stmt);
@@ -359,7 +391,7 @@ class Pizza_ordineFactory {
     public function &caricaPODaStmt(mysqli_stmt $stmt) {
         $po = array();
         if (!$stmt->execute()) {
-            error_log("[caricaPizzeDaStmt] impossibile" .
+            error_log("[caricaPODaStmt] impossibile" .
                     " eseguire lo statement");
             return null;
         }
@@ -373,7 +405,7 @@ class Pizza_ordineFactory {
                 $row['dimensione']);
 
         if (!$bind) {
-            error_log("[caricaPizzeDaStmt] impossibile" .
+            error_log("[caricaPODaStmt] impossibile" .
                     " effettuare il binding in output");
             return null;
         }

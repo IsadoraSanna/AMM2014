@@ -22,7 +22,9 @@ class OrarioFactory {
         return self::$singleton;
     }
     
-
+    /*
+    * @return tutte le fasce orarie disponibili
+    */
     public function &getOrari(){
         $orari = array();
         $query = "select * from orari";
@@ -47,13 +49,16 @@ class OrarioFactory {
         return $orari;        
     }
 
-    
-    public function &getOrariSuccessivi($orarioId){
+    /*
+    * @param $id id di una fascia oraria
+    * @return tutte le fasce orarie >= a quella identificata dall'id preso in input
+    */    
+    public function getOrariSuccessivi($orarioId){
         $orari = array();
         $query = "select * from orari where id >= ?";
         $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {
-            error_log("[getOrari] impossibile inizializzare il database");
+            error_log("[getOrariSuccessivi] impossibile inizializzare il database");
             $mysqli->close();
            
         }
@@ -61,17 +66,17 @@ class OrarioFactory {
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
         if (!$stmt) {
-            error_log("[getPizzaPerId] impossibile" .
+            error_log("[getOrariSuccessivi] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return $orari;
+            return 0;
         }
 
         if (!$stmt->bind_param('i', $orarioId)) {
-            error_log("[getPizzaPerId] impossibile" .
+            error_log("[getOrariSuccessivi] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return $orari;
+            return 0;
         }  
 
         $orari = self::caricaOrariDaStmt($stmt);
@@ -80,7 +85,7 @@ class OrarioFactory {
         return $orari;        
     }
     
-    private function caricaOrariDaStmt(mysqli_stmt $stmt){
+    private function &caricaOrariDaStmt(mysqli_stmt $stmt){
         
         $orari = array();
         if (!$stmt->execute()) {

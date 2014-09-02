@@ -23,20 +23,26 @@ class PizzaFactory {
         return self::$singleton;
     }
     
+    /*
+    * @return tutte le pizze esistenti all'interno della tabella pizze   
+    */
     public function &getPizze() {
 
         $pizze = array();
         $query = "select * from pizze";
+        
         $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {
             error_log("[getPizze] impossibile inizializzare il database");
             $mysqli->close();
+            return 0;
            
         }
         $result = $mysqli->query($query);
         if ($mysqli->errno > 0) {
             error_log("[getMPizze] impossibile eseguire la query");
             $mysqli->close();
+            return 0;
          
         }
 
@@ -56,7 +62,11 @@ class PizzaFactory {
         $pizza->setPrezzo($row['prezzo']);
         return $pizza;
     }
-
+    
+    /*
+    * @param $id id pizza
+    * @return la pizza alla quale corrisponde quel determinato id  
+    */
     public function getPizzaPerId($id) {
         $pizza = array();
         $query = "SELECT * from pizze WHERE id = ?";
@@ -65,7 +75,7 @@ class PizzaFactory {
         if (!isset($mysqli)) {
             error_log("[getPizzaPerId] impossibile inizializzare il database");
             $mysqli->close();
-            return $pizza;
+            return 0;
         }
 
         $stmt = $mysqli->stmt_init();
@@ -74,14 +84,14 @@ class PizzaFactory {
             error_log("[getPizzaPerId] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return $pizza;
+            return 0;
         }
 
         if (!$stmt->bind_param('i', $id)) {
             error_log("[getPizzaPerId] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return $pizza;
+            return 0;
         }  
         
         $pizza = self::creaPizzaDaStmt($stmt);
@@ -93,7 +103,7 @@ class PizzaFactory {
     public function &creaPizzaDaStmt(mysqli_stmt $stmt) {
         $pizza = array();
         if (!$stmt->execute()) {
-            error_log("[caricaPizzaDaStmt] impossibile" .
+            error_log("[creaPizzaDaStmt] impossibile" .
                     " eseguire lo statement");
             return null;
         }
@@ -106,7 +116,7 @@ class PizzaFactory {
                 $row['prezzo']);
 
         if (!$bind) {
-            error_log("[caricaPizzaDaStmt] impossibile" .
+            error_log("[creaPizzaDaStmt] impossibile" .
                     " effettuare il binding in output");
             return null;
         }
@@ -118,7 +128,9 @@ class PizzaFactory {
 
         return $pizza;
     }     
-
+    /*
+    * @return solo gli id di tutte le pizze presenti all'interno della tabella pizze
+    */
     public function getIdPizze() {
 
         $pizzeId = array();
@@ -130,12 +142,14 @@ class PizzaFactory {
         if (!isset($mysqli)) {
             error_log("[getIdPizze] impossibile inizializzare il database");
             $mysqli->close();
+            return 0;
            
         }
         $result = $mysqli->query($query);
         if ($mysqli->errno > 0) {
             error_log("[getIdPizze] impossibile eseguire la query");
             $mysqli->close();
+            return 0;
          
         }
         $i = 0;

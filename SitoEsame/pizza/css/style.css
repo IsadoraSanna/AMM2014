@@ -113,33 +113,34 @@
         background: url('../images/logout.png') no-repeat left center;
     }
     
- /* social bar */
-    .social p{
+ /* gestione stile logout */
+    .logout p{
         margin: 10px;
         float: left;
     }
-    .social{
+    .logout{
         width: 500px;
        
     }
 
-    .social ul{
+    .logout ul{
         display: block;
         float: right;
         margin-right: 10px;
     }
 
-    .social ul li{
+    .logout ul li{
         display: inline-block;
         height: 25px;
         overflow: hidden;
 
     }
 
-    .social ul li a:link{
+    .logout ul li a:link{
         color: transparent;
     }
- 
+
+/*stile deli vari form, label e finestre di input di seguito*/
     label.full{
         display: inline-block;
         width: 70%;
@@ -170,129 +171,128 @@
     }
     
     
-.input-form{
-    line-height: 3em;
+    .input-form{
+        line-height: 3em;
 
-}
+    }
 
 
-.input-form input[type=text], .input-form input[type=password]{
-    display: inline-block;
-    width:59%;
-}
+    .input-form input[type=text], .input-form input[type=password]{
+        display: inline-block;
+        width:59%;
+    }
 
-.input-form select{
-    display: inline-block;
-    width:59%;
-    border: 1px solid #1c345a;
-    background-color: #ffffff;
-}
+    .input-form select{
+        display: inline-block;
+        width:59%;
+        border: 1px solid #1c345a;
+        background-color: #ffffff;
+    }
 
-.input-form input[type=submit], .input-form button{
-    width: auto;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    padding-left: 10px;
-    padding-right: 10px;
+    .input-form input[type=submit], .input-form button{
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        padding-left: 10px;
+        padding-right: 10px;
 
-}
+    }
 
-.btn-group input[type=submit], .btn-group button{
-    display: inline-block;
-}
+/*stile dei bottoni*/
+    .btn-group input[type=submit], .btn-group button{
+        display: inline-block;
+    }
 
-.btn-group{
-    text-align: center;
-}
+    .btn-group{
+        text-align: center;
+    }
 
 /* stile delle tabelle */
+    table {
+        border: 1px solid #1c345a;
+        border-collapse: collapse;
+        margin-top:10px;
+        line-height: 1.2em;
+        width: 100%;
+        font-size: 14px;
+        margin-bottom: 10px;
 
-table {
-    border: 1px solid #1c345a;
-    border-collapse: collapse;
-    margin-top:10px;
-    line-height: 1.2em;
-    width: 100%;
-    font-size: 14px;
-    margin-bottom: 10px;
-   
-}
+    }
 
 
-th, td {
-    border: 1px solid #1c345a;
-    border-collapse: collapse;
-    text-align: center;
-}
+    th, td {
+        border: 1px solid #1c345a;
+        border-collapse: collapse;
+        text-align: center;
+    }
 
-th{
-    background-color: #990000;
-    color: white;
-    font-weight: bold;
-}
-td.normal {
-    height: 50px;
-}
+    th{
+        background-color: #990000;
+        color: white;
+        font-weight: bold;
+    }
+    td.normal {
+        height: 50px;
+    }
 
-.col-small{
-    width: 10%;
-    height: 50px;
-}
+    .col-small{
+        width: 10%;
+        height: 50px;
+    }
 
-.col-large{
-    width: 15%;
-    height: 50px;
-}
+    .col-large{
+        width: 15%;
+        height: 50px;
+    }
 
-/* stile delle tabelle per il pannello di controllo*/
-.content{
-    border: 0px;
-    width: 110%;
-    margin-right: 15%;
-    table-layout: fixed;
-    margin-top: 40px;
-}
+ /* stile delle tabelle per il pannello di controllo*/
+    .content{
+        border: 0px;
+        width: 110%;
+        margin-right: 15%;
+        table-layout: fixed;
+        margin-top: 40px;
+    }
 
-.noRighe{
-    border: 0px;
-    padding-bottom: 40px;
-}
+    .noRighe{
+        border: 0px;
+        padding-bottom: 40px;
+    }
 
-.error li {
-    list-style: none;
-}
+/*stile dei messaggi d'errore*/
+    .error li {
+        list-style: none;
+    }
 
-/* stile per i messaggi di errore */
+    .error{
+        width: 90%;
+        background-color: #f5a5a5;
+        border: 3px solid #9e1616;
+        margin: auto;
+        padding: 10px;
+        text-align: center;
+        margin-top: 5px;
+    }
+    .error div{
+        margin: 0px;
+        background: url('../images/no.png') no-repeat left top;
+        min-height: 32px;
 
-.error{
-    width: 90%;
-    background-color: #f5a5a5;
-    border: 3px solid #9e1616;
-    margin: auto;
-    padding: 10px;
-    text-align: center;
-    margin-top: 5px;
-}
-.error div{
-    margin: 0px;
-    background: url('../images/no.png') no-repeat left top;
-    min-height: 32px;
-    
-}
+    }
 /* stile per i messaggi di conferma */
 
-.confirm{
-    width: 90%;
-    background-color: #c7edce;
-    border: 3px solid #36956e;
-    margin: auto;
-    padding: 10px;
-    text-align: center;
-    margin-top: 5px;
-}
-.confirm div{
-    margin: 0px;
-    background: url('../images/ok.png') no-repeat left top;
-    min-height: 32px;
-}
+    .confirm{
+        width: 90%;
+        background-color: #c7edce;
+        border: 3px solid #36956e;
+        margin: auto;
+        padding: 10px;
+        text-align: center;
+        margin-top: 5px;
+    }
+    .confirm div{
+        margin: 0px;
+        background: url('../images/ok.png') no-repeat left top;
+        min-height: 32px;
+    }

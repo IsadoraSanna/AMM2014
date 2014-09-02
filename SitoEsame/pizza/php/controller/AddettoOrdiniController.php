@@ -7,10 +7,8 @@ include_once basename(__DIR__) . '/../model/PizzaFactory.php';
 include_once basename(__DIR__) . '/../model/OrdineFactory.php';
 
 /**
- * Controller che gestisce la modifica dei dati dell'applicazione relativa ai 
- * Docenti da parte di utenti con ruolo Docente o Amministratore 
- *
- * @author Davide Spano
+ * Controller che gestisce la modifica dei dati dell'applicazione relativa agli 
+ * addetti agli ordini
  */
 class AddettoOrdiniController extends BaseController {
 
@@ -49,19 +47,20 @@ class AddettoOrdiniController extends BaseController {
                 switch ($request["subpage"]) {
 
                     
-                    // modifica dei dati anagrafici
+                    // visualizza i dati anagrafici
                     case 'anagrafica':
                         $_SESSION['pagina'] = 'anagrafica.php';   
                         $vd->setSottoPagina('anagrafica');
                         break;
                     
-                    // inserimento di una lista di appelli
+                    // gestione degli ordini eseguiti oggi
                     case 'gestione_ordini':
                         $_SESSION['pagina'] = 'gestione_ordini.php';
                         $ordini = OrdineFactory::instance()->getOrdiniNonPagati();
                         $vd->setSottoPagina('gestione_ordini');
                         break;
                     
+                    // ricerca di tutti gli ordini che sono stati eseguiti tramite il sito 
                     case 'ricerca_ordini':
                         $_SESSION['pagina'] = 'ricerca_ordini.php';
                         $orari = OrarioFactory::instance()->getOrari();
@@ -72,6 +71,7 @@ class AddettoOrdiniController extends BaseController {
                         $vd->addScript("../js/ricercaOrdini.js");
                         break;                    
                     
+                    // utilizzo la funzione js e il json per ricercare e stampare i risultati della ricerca_ordini
                     case 'filtra_ordini':
                         $vd->toggleJson();
                         $vd->setSottoPagina('ricerca_ordini_json');
@@ -113,8 +113,10 @@ class AddettoOrdiniController extends BaseController {
                     case 'logout':
                         $this->logout($vd);
                         break;
-
+                                      
                     case 'dettaglio':
+                        //mi permette di vedere i dettagli relativi a un ordine : elenco pizze, quantità, prezzi singoli e totali
+                        //e richieste di consegne a domicilio                          
                         $_SESSION['pagina'] = 'dettaglio_ordine.php';                            
                         $ordineId = filter_var($request['ordine'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
                         $ordine = OrdineFactory::instance()->getOrdine($ordineId);
@@ -125,6 +127,8 @@ class AddettoOrdiniController extends BaseController {
                         break; 
                     
                     case 'paga':
+                        //permette al dipendente di segnalare un ordine come pagato e quindi non farlo piu apparire
+                        //nell'elenco degli ordini da gestire
                         $msg = array();
                         $ordineId = filter_var($request['ordine'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
                         if (OrdineFactory::instance()->setPagato($ordineId, $user)) {
@@ -135,18 +139,6 @@ class AddettoOrdiniController extends BaseController {
                         $ordini = OrdineFactory::instance()->getOrdiniNonPagati();
                         $this->showHomeUtente($vd);                        
                         break;
-                    
-                        
-  
-                    
-                    // modifica della password
-                    case 'password':
-                        $msg = array();
-                        $this->aggiornaPassword($user, $request, $msg);
-                        $this->creaFeedbackUtente($msg, $vd, "Password aggiornata");
-                        $this->showHomeUtente($vd);
-                        break;
-
 
                     // default
                     default:
@@ -154,9 +146,7 @@ class AddettoOrdiniController extends BaseController {
                         break;
                 }
             } else {
-                // nessun comando, dobbiamo semplicemente visualizzare 
-                // la vista
-                // nessun comando
+                // nessun comando, dobbiamo semplicemente visualizzare la vista
                 $user = UserFactory::instance()->cercaUtentePerId(
                         $_SESSION[BaseController::user], $_SESSION[BaseController::role]);
                 $this->showHomeUtente($vd);

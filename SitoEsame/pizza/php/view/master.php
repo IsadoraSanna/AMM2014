@@ -13,7 +13,6 @@ if (!$vd->isJson()) {
          - menu (i tab)
          - leftBar (sidebar sinistra)
          - content (la parte centrale con il contenuto)
-         - rightBar (sidebar destra)
          - footer (footer)
 
           Queste informazioni sono manentute in una struttura dati, chiamata ViewDescriptor
@@ -39,18 +38,14 @@ if (!$vd->isJson()) {
         <body>
             <div id="page">
                 <header>
-                    <div class="social">
+                    <div class="logout">
                         <?php
                         $logo = $vd->getLogoFile();
                         require "$logo";
                         ?>
                     </div>
-                    <!--  header -->
-                    <div id="header">                      
- 
-                    </div>
-                    
-                                    <!-- menu -->
+
+                <!-- menu -->
                 <div id="menu">
                     <?php
                         $menu = $vd->getMenuFile();
@@ -61,7 +56,7 @@ if (!$vd->isJson()) {
                 </header>
                 <!-- start page -->
                 
-                <!--  sidebar 1 -->
+                <!--  sidebar sinistra -->
                 <div id="sidebar1">
                     <ul>
                         <li id="categories">
@@ -74,7 +69,7 @@ if (!$vd->isJson()) {
                     </ul>
                 </div>
 
-                <!-- contenuto -->
+                <!-- contenuto pagina-->
                 <div id="content">
                     <?php
                     if ($vd->getMessaggioErrore() != null) {

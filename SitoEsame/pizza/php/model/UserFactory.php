@@ -72,7 +72,7 @@ class UserFactory {
             return $addettoOrdini;
         }
 
-        // ora cerco un docente
+        // ora cerco un addetto agli ordini
         $query = "select * from addettoOrdini where username = ? and password = ?";
 
         $stmt = $mysqli->stmt_init();
@@ -136,7 +136,7 @@ class UserFactory {
         return self::creaClienteDaArray($row);
     }
     /**
-     * Restituisce un array con i Docenti presenti nel sistema
+     * Restituisce un array con i addetti agli ordini presenti nel sistema
      * @return array
      */
     public function &getListaClienti() {
@@ -165,7 +165,7 @@ class UserFactory {
     }
 
     /**
-     * Crea uno studente da una riga del db
+     * Crea un cliente da una riga del db
      * @param type $row
      * @return \Cliente
      */
@@ -218,7 +218,7 @@ class UserFactory {
 
 
     /**
-     * Crea un docente da una riga del db
+     * Crea un addetto ordini da una riga del db
      * @param type $row
      * @return \AddettoOrdini
      */
@@ -404,18 +404,11 @@ class UserFactory {
 
         return self::creaAddettoOrdiniDaArray($row);
     }
-
-    /**
-     * Carica uno studente eseguendo un prepared statement
-     * @param mysqli_stmt $stmt
-     * @return null
-     */
-    
     
     /**
-     * Cerca uno studente per id
+     * Cerca un utente per id
      * @param int $id
-     * @return Cliente un oggetto Cliente nel caso sia stato trovato,
+     * @return  un oggetto Cliente nel caso sia stato trovato,
      * NULL altrimenti
      */
     public function cercaUtentePerId($id, $role) {
@@ -480,6 +473,11 @@ class UserFactory {
         }
                 
     }
+    
+    /*
+    * @param $id id del cliente da ricercare
+    * @return dati del cliente corrispondenti all'id considerato
+    */    
     public function getClientePerId($id) {
        $addettoOrdini = array();
         $query = "SELECT * FROM clienti WHERE clienti.id = ? ";          

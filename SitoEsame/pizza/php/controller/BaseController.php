@@ -100,7 +100,7 @@ class BaseController {
      * @param ViewDescriptor $vd il descrittore della vista
      */
     protected function showHomeCliente($vd) {
-        // mostro la home degli studenti
+        // mostro la home di clienti
 
         $vd->setTitolo("Pizza UniCA - gestione cliente ");
         $vd->setMenuFile(basename(__DIR__) . '/../view/cliente/menu.php');
@@ -115,7 +115,7 @@ class BaseController {
      * @param ViewDescriptor $vd il descrittore della vista
      */
     protected function showHomeAddettoOrdini($vd) {
-        // mostro la home dei docenti
+        // mostro la home dgli addetti agli ordini
         $vd->setTitolo("Pizza UniCA - gestione addetto ordini");
         $vd->setMenuFile(basename(__DIR__) . '/../view/addettoOrdini/menu.php');
         $vd->setLogoFile(basename(__DIR__) . '/../view/addettoOrdini/logo.php');

@@ -25,6 +25,11 @@ class OrdineFactory {
         return self::$singleton;
     }
 
+    /*
+    * La funzione crea un nuovo ordine attribuendogli esclusivamente un ID. tutti gli altri campi rimangono vuoti
+    * @param $id id nuovo ordine
+    * @return il numero di righe create
+    */    
     public function nuovoOrdine($ordine){
         $query = "INSERT INTO ordini (`id`) VALUES (?)";   
         
@@ -72,7 +77,15 @@ class OrdineFactory {
         return $stmt->affected_rows;
         
     }
+
     
+    /*
+    * La funzione aggiorna un ordine creato con la funzione precedente aggiornando i dati mancanti
+    * @param $user dati dell'utente che sta eseguendo la query
+    * @param $ordine dati dell'ordine che si sta per aggiornare
+    * @param $odomicilio indica se è stata richiesta o meno la consegna a domicilio
+    * @return true se l'operazione è andata a buon fine
+    */       
     public function aggiornaOrdine($user, $ordine, $domicilio){
         $query = "UPDATE `ordini` SET 
             `domicilio`= ?,
@@ -139,14 +152,24 @@ class OrdineFactory {
 
         return true;        
     }
-    
+ 
+    /*
+    * La funzione calcola il prezzo totale dell'ordine (costo pizze + costo consegna a domicilio)
+    * @param $ordine ordine che si sta prendendo in considerazione
+    * @return il prezzo totale
+    */       
     public function getPrezzoTotale(Ordine $ordine){
         $domicilio = 1.5;
         $prezzoParziale = Pizza_ordineFactory::instance()->getPrezzoParziale($ordine);
         if ($ordine->getDomicilio() == "si") return  $prezzoParziale + $domicilio;
         else return $prezzoParziale;
     }    
-    
+ 
+    /*
+    * La funzione ricava il valore della fascia oraria appartenente a un determinato id presente nel record di un ordine
+    * @param $orarioId indentifica una fascia oraria
+    * @return valore della fascia oraria
+    */          
     public function getValoreOrario($orarioId){
         $query = "select orari.fasciaOraria             
             FROM orari
@@ -157,7 +180,7 @@ class OrdineFactory {
         if (!isset($mysqli)) {
             error_log("[getValoreOrario] impossibile inizializzare il database");
             $mysqli->close();
-            return true;
+            return null;
         }
 
         $stmt = $mysqli->stmt_init();
@@ -166,14 +189,14 @@ class OrdineFactory {
             error_log("[getValoreOrario] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return true;
+            return null;
         }
 
         if (!$stmt->bind_param('i', $orarioId)) {
             error_log("[getValoreOrario] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return true;
+            return null;
         }
 
        if (!$stmt->execute()) {
@@ -186,7 +209,7 @@ class OrdineFactory {
         $bind = $stmt->bind_result($row['orario']);
 
         if (!$bind) {
-            error_log("[getNPizzePerOrdine] impossibile" .
+            error_log("[getValoreOrario] impossibile" .
                     " effettuare il binding in output");
             return null;
         }
@@ -197,7 +220,11 @@ class OrdineFactory {
         return $orario;                
         
     }   
-    
+
+    /*
+    * @param $id id dell'ordine da cancellare
+    * @return numero di righe cancellate
+    */           
     public function cancellaOrdine($id){
         $query = "delete from ordini where id = ?";
         
@@ -234,7 +261,10 @@ class OrdineFactory {
         $mysqli->close();
         return $stmt->affected_rows;        
     }
-    
+
+    /*
+    * @return ultimo id ordine inserito nella tabella ordini +1
+    */      
     public function getLastId(){
         $query = "SELECT ordini.id ordine_id FROM ordini ORDER BY Id DESC LIMIT 1";
 
@@ -252,7 +282,10 @@ class OrdineFactory {
         
     }   
     
-    
+    /*
+    * @param $id id dell'ordine di riferimento
+    * @return l'ordine al quale faceva riferimento l'id
+    */     
     public function getOrdine($id){
 
         $query = "SELECT * FROM ordini WHERE id = ?";
@@ -261,7 +294,7 @@ class OrdineFactory {
         if (!isset($mysqli)) {
             error_log("[getOrdine] impossibile inizializzare il database");
             $mysqli->close();
-            return $ordini;
+            return false;
         }
 
         $stmt = $mysqli->stmt_init();
@@ -270,14 +303,14 @@ class OrdineFactory {
             error_log("[getOrdine] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return $ordini;
+            return false;
         }
 
         if (!$stmt->bind_param('i', $id)) {
             error_log("[getOrdine] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return $ordini;
+            return false;
         }
         
         $ordine = self::caricaOrdineDaStmt($stmt);
@@ -286,7 +319,8 @@ class OrdineFactory {
         return $ordine;        
         
     }
-   
+ 
+    //per un risultato
     public function &caricaOrdineDaStmt(mysqli_stmt $stmt) {
         $ordine = array();
         if (!$stmt->execute()) {
@@ -321,6 +355,7 @@ class OrdineFactory {
         return $ordine;
     }
     
+    //per un array di risultati
     public function &caricaOrdiniDaStmt(mysqli_stmt $stmt) {
         $ordini = array();
         if (!$stmt->execute()) {
@@ -369,16 +404,19 @@ class OrdineFactory {
         return $ordine;
     }
     
-    
-        public function &getOrdiniPerIdCliente($user){
+       /*
+       * @param $user utente di riferimento
+       * @return tutti gli ordini fatti dal cliente di riferimento
+       */    
+        public function getOrdiniPerIdCliente($user){
         $ordini = array();
         $query = "SELECT * FROM ordini WHERE ordini.cliente_id = ? ";
         
         $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {
-            error_log("[OrdiniForIdCliente] impossibile inizializzare il database");
+            error_log("[getOrdiniPerIdCliente] impossibile inizializzare il database");
             $mysqli->close();
-            return $ordini;
+            return false;
         }
 
         $stmt = $mysqli->stmt_init();
@@ -387,14 +425,14 @@ class OrdineFactory {
             error_log("[OrdiniForIdCliente] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return $ordini;
+            return false;
         }
 
         if (!$stmt->bind_param('i', $user->getId())) {
-            error_log("[OrdiniForIdCliente] impossibile" .
+            error_log("[getOrdiniPerIdCliente] impossibile" .
                     " effettuare il binding in input".$user->getId());
             $mysqli->close();
-            return $ordini;
+            return false;
         }
 
         $ordini = self::caricaOrdiniDaStmt($stmt);
@@ -403,6 +441,9 @@ class OrdineFactory {
         return $ordini;
     }
  
+    /*
+    * @return tutti gli ordini che non sono ancora stati segnalati come pagati
+    */     
     public function getOrdiniNonPagati(){
         $ordini = array();
         $query = "SELECT * FROM ordini WHERE ordini.stato = ? AND ordini.data LIKE ?";  
@@ -414,7 +455,7 @@ class OrdineFactory {
         if (!isset($mysqli)) {
             error_log("[getOrdiniNonPagati] impossibile inizializzare il database");
             $mysqli->close();
-            return $ordini;
+            return false;
         }
 
         $stmt = $mysqli->stmt_init();
@@ -423,14 +464,14 @@ class OrdineFactory {
             error_log("[getOrdiniNonPagati] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return $ordini;
+            return false;
         }
 
         if (!$stmt->bind_param('ss', $stato, $data)) {
             error_log("[getOrdiniNonPagati] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return $ordini;
+            return false;
         } 
         
         $ordini = self::caricaOrdiniDaStmt($stmt);
@@ -439,7 +480,13 @@ class OrdineFactory {
         return $ordini;        
         
     }
-    
+ 
+       /*
+       *La funzione permette di impostare nello stato "pagato" un ordine che era in stato "da pagare" 
+       * @param $ordineId id dell'ordine di riferimento
+       * @param $user utente di riferimento
+       * @return il numero di record modificati
+       */     
     public function setPagato($ordineId, $user){
         $query = "UPDATE `ordini` SET 
             `stato`= ?,
@@ -482,8 +529,11 @@ class OrdineFactory {
         $mysqli->close();
         return $stmt->affected_rows;                
     }
-    
-    public function &getDate(){
+
+       /* 
+       * @return tutte le date in ordine decrescente in cui sono stati effettuati degl ordini
+       */        
+    public function getDate(){
         $date = array();
         $query = "SELECT DISTINCT `data` FROM  `ordini` ORDER BY data DESC";
         $mysqli = Db::getInstance()->connectDb();
@@ -505,8 +555,14 @@ class OrdineFactory {
 
         $mysqli->close();
         return $date;        
-    }    
-   
+    } 
+    
+    /*
+    *La funzione permette di impostare nello stato "pagato" un ordine che era in stato "da pagare" 
+    * @param $data data di riferimento
+    * @param $oraId id dell'orario di riferimento
+    * @return tutti gli ordini generati nella data di riferimento per la fascia oraria di riferimento
+    */   
     public function getOrdiniPerDataOra($data, $oraId){
         $ordini = array();
         $query = "SELECT * FROM ordini WHERE ordini.data = ? AND ordini.orario_id = ?"; 
@@ -518,7 +574,7 @@ class OrdineFactory {
         if (!isset($mysqli)) {
             error_log("[ricercaPerDataOra] impossibile inizializzare il database");
             $mysqli->close();
-            return $ordini;
+            return 0;
         }
 
         $stmt = $mysqli->stmt_init();
@@ -527,14 +583,14 @@ class OrdineFactory {
             error_log("[ricercaPerDataOra] impossibile" .
                     " inizializzare il prepared statement");
             $mysqli->close();
-            return $ordini;
+            return 0;
         }
 
         if (!$stmt->bind_param('si', $newData, $oraId)) {
             error_log("[ricercaPerDataOra] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();
-            return $ordini;
+            return 0;
         } 
         
         $ordini = self::caricaOrdiniDaStmt($stmt);
