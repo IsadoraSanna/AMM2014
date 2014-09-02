@@ -1,4 +1,4 @@
-<h2 class="icon-title">Informazioni</h2>
+<h2>Informazioni</h2>
 <p> 
      Benvenuto <?= $user->getNome()." ". $user->getCognome()?>.
 </p>
@@ -24,7 +24,12 @@ switch ($_SESSION['pagina']) {
         <p>
             Ricerca tutti gli ordini gestiti tramite il sito scegliendo una particolare data e la relativa fascia oraria.
         </p>
-       <?break; 
+       <?break;
+    case 'dettaglio_ordine.php':?>
+        <p>
+            Dettaglio dei prezzi ed elenco pizze relativi all'ordine selezionato.
+        </p>
+       <?break;    
    default:
        break;   
 }

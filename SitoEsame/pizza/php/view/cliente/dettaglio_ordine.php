@@ -30,8 +30,8 @@
             </tr>       
             <tr>
                 <td><?= OrdineFactory::instance()->getValoreOrario($ordine->getOrario()) ?></td>           
-                <td><? if($ordine->getDomicilio() == "s"){?>si<? } else {?>no<? } ?></td>            
-                <td><? if($ordine->getDomicilio() == "s"){?>1.5€<? } else {?>0€<? } ?></td>
+                <td><? if($ordine->getDomicilio() == "si"){?>si<? } else {?>no<? } ?></td>            
+                <td><? if($ordine->getDomicilio() == "si"){?>1.5€<? } else {?>0€<? } ?></td>
                 <td><?= Pizza_ordineFactory::instance()->getPrezzoParziale($ordine) . "€ "?></td>                 
                 <td><?= OrdineFactory::instance()->getPrezzoTotale($ordine) . "€ "?></td>                 
             </tr>

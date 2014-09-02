@@ -124,7 +124,7 @@ class ClienteController extends BaseController {
                             $orari = OrarioFactory::instance()->getOrariSuccessivi($request['orario']);  
                             foreach ($orari as $orario) {
                                 if((Pizza_ordineFactory::instance()->getNPizzePerOrario($orario->getId())+$nPizze) <= $orario->getOrdiniDisponibili()){
-                                    var_dump("Pizze per orario ".Pizza_ordineFactory::instance()->getNPizzePerOrario($orario->getId()));
+                                    //var_dump("Pizze per orario ".Pizza_ordineFactory::instance()->getNPizzePerOrario($orario->getId()));
                                     $ordine->setOrario($orario->getId());
                                     $flagOrario = true;
                                     break;
@@ -133,7 +133,7 @@ class ClienteController extends BaseController {
                         }
                         
                         if (!$nPizze){
-                            $this->creaFeedbackUtente($msg, $vd, "I valori inseriti non sono validi. Ordine annullato");
+                            $msg[]='<li>I valori inseriti non sono validi. Ordine annullato</li>';
                             $vd->setSottoPagina('ordina');                            
                         }
                         else if($flagOrario){
@@ -153,14 +153,16 @@ class ClienteController extends BaseController {
                         else {
                             Pizza_ordineFactory::instance()->cancellaPO($ordineId);
                             OrdineFactory::instance()->cancellaOrdine($ordineId);                           
-                            $this->creaFeedbackUtente($msg, $vd, "Non è possibile ordinare questo quantitativo di pizze in nessuna fascia oraria odierna");
+                            $msg[]= '<li>Non è possibile ordinare questo quantitativo di pizze in nessuna fascia oraria odierna';
                             $vd->setSottoPagina('ordina');                            
                         }
+                        $this->creaFeedbackUtente($msg, $vd, "");
                         $this->showHomeUtente($vd);
                         break;
                    
                         
                     case 'dettaglio':
+                        $_SESSION['pagina'] = 'dettaglio_ordine.php'; 
                         $ordineId = filter_var($request['ordine'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
                         $ordine = OrdineFactory::instance()->getOrdine($ordineId);
                         $POs = Pizza_ordineFactory::instance()->getPOPerIdOrdine($ordine);
@@ -184,7 +186,7 @@ class ClienteController extends BaseController {
                         $o = OrdineFactory::instance()->cancellaOrdine($ordineId);
                         if ($p && $o) {
                             $this->creaFeedbackUtente($msg, $vd, "Ordine ".$ordineId." cancellato.");
-                        }else $this->creaFeedbackUtente($msg, $vd, "Errore cancellazione");
+                        }else $this->creaFeedbackUtente('<li>Errore cancellazione</li>', $vd, "");
                         $vd->setSottoPagina('home');
                         $this->showHomeUtente($vd);
                         break;

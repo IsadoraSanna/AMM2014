@@ -18,7 +18,7 @@
                     <td class="col-small"><?= $ordine->getId() ?></td>
                     <td class="col-small"><?= substr($ordine->getData(),0,10)?>              
                     <td class="col-small"><?= $ordine->getStato() ?></td>
-                    <td class="col-small"><?= round($ordine->getPrezzo(),2) . "€"?></td>
+                    <td class="col-small"><?= OrdineFactory::instance()->getPrezzoTotale($ordine) . "€ " ?></td>
                     <td class="col-small"><a href="cliente/ordini?cmd=dettaglio&ordine=<?= $ordine->getId() ?>" title="dettaglio_ordine">
                     <img src="../images/dettaglio.png" alt="dettaglio ordine"></a></td>                    
                 </tr>

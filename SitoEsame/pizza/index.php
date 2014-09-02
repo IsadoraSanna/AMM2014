@@ -10,7 +10,7 @@
         <h2> Descrizione dell'applicazione</h2>
         <p>
             Il sito in questione si occupa della gestione degli ordini di una pizzeria.
-            Ogni ordine comprende un insieme di pizze (almeno 1) ed è caratterizzato da alcuni elementi caratteristici quali:
+            Ogni ordine comprende un insieme di pizze (almeno 1) ed è caratterizzato da alcuni elementi quali:
         </p>
         <ul>
             <li>Numero identificativo univoco dell'ordine</li>
@@ -20,8 +20,12 @@
             <li>Richiesta di consegna a domicilio</li>       
         </ul> 
         <p> 
-            Ogni ordine si distinguerà dagli altri, oltre che per l'identificativo univoco, anche per la fascia oraria in cui verrà consegnato,
-            il cliente che l'ha richiesto e l'addetto agli ordini al quale è stata assegnata la gestione.
+            Ogni ordine si distinguerà dagli altri, oltre che per l'identificativo univoco, anche per: 
+       </p>
+       <ul>
+            <li>La fascia oraria in cui verrà consegnato</li>
+            <li>Il cliente che l'ha richiesto</li>
+            <li>L'addetto agli ordini al quale è stata assegnata la gestione</li>
         </p>
     
         
@@ -40,7 +44,7 @@
         </ul> 
         <p>
             I dati relativi all'indirizzo dell'utente vengono utilizzati principalmente nel caso in cui questo richieda una consegna a domicilio. 
-            Infatti, nel caso in cui la consegna dovesse avvenire ad un indirizzo diverso da quello gia presente, questo deve essere modificato
+            Infatti, nel caso in cui la consegna debba avvenire ad un indirizzo diverso da quello gia presente, questo deve essere modificato
             nella sezione "anagrafica".
         </p>
         <p>
@@ -66,7 +70,7 @@
          <p>
             Tramite la pagina "Gestione ordini" un addetto può visualizzare gli ordini del giorno che devono ancora essere ritirati/consegati
             e pagati. Nel momento in cui questi vengono segnalati come pagati non vengono piu visualizzati in questo elenco mentre è possibile
-            visualizzarli nella pagina "Ricerca ordini".
+            visualizzarli nella pagina "Ricerca ordini". Un ordine pagato registra l'ID dell'addetto che l'ha segnalato come pagato.
             In questa pagina è possibile ricercare qualsiasi ordine, qualunque sia il suo stato, tramite la scelta della data e dell'ora.
         </p>       
         

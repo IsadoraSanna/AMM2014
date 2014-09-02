@@ -108,6 +108,7 @@ class AddettoOrdiniController extends BaseController {
                         break;
 
                     case 'dettaglio':
+                        $_SESSION['pagina'] = 'dettaglio_ordine.php';                            
                         $ordineId = filter_var($request['ordine'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
                         $ordine = OrdineFactory::instance()->getOrdine($ordineId);
                         $POs = Pizza_ordineFactory::instance()->getPOPerIdOrdine($ordine);
@@ -119,7 +120,7 @@ class AddettoOrdiniController extends BaseController {
                     case 'paga':
                         $msg = array();
                         $ordineId = filter_var($request['ordine'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-                        if (OrdineFactory::instance()->setPagato($ordineId)) {
+                        if (OrdineFactory::instance()->setPagato($ordineId, $user)) {
                             $this->creaFeedbackUtente($msg, $vd, "Ordine ".$ordineId." pagato.");
                         }else $this->creaFeedbackUtente($msg, $vd, "Errore cancellazione"); 
                         

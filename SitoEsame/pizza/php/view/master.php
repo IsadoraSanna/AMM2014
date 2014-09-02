@@ -81,9 +81,7 @@ if (!$vd->isJson()) {
                         ?>
                         <div class="error">
                             <div>
-                                <?=
-                                $vd->getMessaggioErrore();
-                                ?>
+                                <?= $vd->getMessaggioErrore();?>
                             </div>
                         </div>
                         <?php
@@ -94,9 +92,7 @@ if (!$vd->isJson()) {
                         ?>
                         <div class="confirm">
                             <div>
-                                <?=
-                                $vd->getMessaggioConferma();
-                                ?>
+                                <?= $vd->getMessaggioConferma();?>
                             </div>
                         </div>
                         <?php

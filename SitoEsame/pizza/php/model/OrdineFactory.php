@@ -143,7 +143,7 @@ class OrdineFactory {
     public function getPrezzoTotale(Ordine $ordine){
         $domicilio = 1.5;
         $prezzoParziale = Pizza_ordineFactory::instance()->getPrezzoParziale($ordine);
-        if ($ordine->getDomicilio() == "s") return  $prezzoParziale + $domicilio;
+        if ($ordine->getDomicilio() == "si") return  $prezzoParziale + $domicilio;
         else return $prezzoParziale;
     }    
     
@@ -440,8 +440,11 @@ class OrdineFactory {
         
     }
     
-    public function setPagato($ordineId){
-        $query = "UPDATE `ordini` SET `stato`= ? WHERE id = ?";   
+    public function setPagato($ordineId, $user){
+        $query = "UPDATE `ordini` SET 
+            `stato`= ?,
+            `addettoOrdini_id`= ?
+            WHERE id = ?";   
         
         $mysqli = Db::getInstance()->connectDb();
         if (!isset($mysqli)) {
@@ -461,7 +464,7 @@ class OrdineFactory {
 
         $stato = "pagato";
         
-        if (!$stmt->bind_param('si', $stato, $ordineId)) {
+        if (!$stmt->bind_param('sii', $stato, $user->getId(), $ordineId)) {
             error_log("[setPagato] impossibile" .
                     " effettuare il binding in input");
             $mysqli->close();

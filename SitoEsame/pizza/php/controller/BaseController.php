@@ -245,7 +245,7 @@ protected function aggiornaIndirizzo($user, &$request, &$msg) {
         if (count($msg) > 0) {
             // ci sono messaggi di errore nell'array,
             // qualcosa e' andato storto...
-            $error = "Si sono verificati i seguenti errori \n<ul>\n";
+            $error = "Si sono verificati i seguenti errori: \n<ul>\n";
             foreach ($msg as $m) {
                 $error = $error . $m . "\n";
             }

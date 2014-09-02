@@ -21,7 +21,7 @@
                 <td class="col-large"><?= $cliente->getCognome() ?></td>           
                 <td class="col-small"><?= $ordine->getDomicilio() ?></td>
                 <td class="col-large"><?= $cliente->getVia() ?> <?= $cliente->getCivico() ?> <?= $cliente->getCap() ?> <?= $cliente->getCitta() ?></td>
-                <td class="col-small"><?= round($ordine->getPrezzo(),2) . "€" ?></td>      
+                <td class="col-small"><?= OrdineFactory::instance()->getPrezzoTotale($ordine) . "€ " ?></td>      
                 <td class="col-small"><a href="addettoOrdini/ordini?cmd=paga&ordine=<?= $ordine->getId() ?>" title="paga">
                 <img src="../images/paga.png" alt="paga"></a></td> 
                 <td class="col-small"><a href="addettoOrdini/ordini?cmd=dettaglio&ordine=<?= $ordine->getId() ?>" title="dettaglio_ordine">

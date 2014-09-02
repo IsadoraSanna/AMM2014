@@ -30,8 +30,8 @@
 
     <label for="domicilio">Consegna a domicilio*</label>
         <select name="domicilio" id="domicilio">
-                <option value="si" >si</option>
-                <option value="no" >no</option>
+                <option value="si">si</option>
+                <option value="no">no</option>
         </select>  
     <label for="orario">Fascia oraria</label>
         <select name="orario" id="orario">

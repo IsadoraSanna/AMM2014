@@ -5,7 +5,7 @@
     $ordine = OrdineFactory::instance()->getOrdine($ordineId);
     $POs = Pizza_ordineFactory::instance()->getPOPerIdOrdine($ordine);
     
-    if($ordine->getDomicilio() == "s") $domicilioSi = true;
+    if($ordine->getDomicilio() == "si") $domicilioSi = true;
     else $domicilioSi = false;
     
 

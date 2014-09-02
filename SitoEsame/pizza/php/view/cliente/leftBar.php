@@ -1,4 +1,4 @@
-<h2 class="icon-title">Informazioni</h2>
+<h2>Informazioni</h2>
 <p> 
     Benvenuto <?= $user->getNome()." ". $user->getCognome()?>.
 </p>
@@ -48,6 +48,11 @@ switch ($_SESSION['pagina']) {
             Per qualsiasi informazione non eistare a contattarci.
         </p>
        <?break;   
+    case 'dettaglio_ordine.php':?>
+        <p>
+            Dettaglio dei prezzi ed elenco pizze relativi all'ordine selezionato.
+        </p>
+       <?break;      
    default:
        break;
 }
