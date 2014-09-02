@@ -48,6 +48,13 @@ class AddettoOrdiniController extends BaseController {
             if (isset($request["subpage"])) {
                 switch ($request["subpage"]) {
 
+                    
+                    // modifica dei dati anagrafici
+                    case 'anagrafica':
+                        $_SESSION['pagina'] = 'anagrafica.php';   
+                        $vd->setSottoPagina('anagrafica');
+                        break;
+                    
                     // inserimento di una lista di appelli
                     case 'gestione_ordini':
                         $_SESSION['pagina'] = 'gestione_ordini.php';

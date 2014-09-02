@@ -29,6 +29,11 @@ switch ($_SESSION['pagina']) {
         <p>
             Dettaglio dei prezzi ed elenco pizze relativi all'ordine selezionato.
         </p>
+       <?break;   
+    case 'anagrafica.php':?>
+        <p>
+            I dati anagrafici presenti in questa pagina sono stati forniti al datore di lavoro e non sono modificabili direttamente dal dipendente.
+        </p>        
        <?break;    
    default:
        break;   
