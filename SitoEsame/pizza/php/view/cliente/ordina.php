@@ -35,15 +35,26 @@
         </select>  
     <label for="orario">Fascia oraria</label>
         <select name="orario" id="orario">
+<!--il seguente ciclo esegue dei controlli per capire quali fasce orarie mostrare a seconda dell'orario attuale. 
+Ovviamente nel caso una delle fasce orarie fosse precedente all'orario attuale questa non viene visualizzata-->            
     <?foreach ($orari as $orario) {
-               $ora = substr($orario, 0, 5);
-               $oraAttuale = date("H:i");
-               if($ora < $oraAttuale){?> 
+               $fasciaOraria = $orario->getFasciaOraria();
+               $ora = intval(substr($fasciaOraria, 0, 2));
+               $minuti = intval(substr($fasciaOraria, 3, 5));
+               if(intval(Date("H")) == $ora){ 
+                if(intval(Date("i")) < $minuti){?>
+                   <option value="<?= $orario->getId() ?>"><?= $fasciaOraria ?></option>
                 
-                <option value="<?= $orario->getId() ?>" ><?= $orario->getFasciaOraria() ?></option>
-    <? } } ?>                
+            <?  }
+               }elseif(intval(Date("H")) < $ora){?>
+                   <option value="<?= $orario->getId() ?>"><?= $fasciaOraria ?></option>
+            <?       
+               }
+               } ?>        
+                   
     </select>     
     <button type="submit" name="cmd" value="procedi_ordine">Procedi</button>
+
     
 </div> 
     

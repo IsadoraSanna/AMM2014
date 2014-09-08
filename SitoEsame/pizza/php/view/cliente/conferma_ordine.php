@@ -14,11 +14,11 @@
     <table>
 
             <tr>
-                <th class="col-small">Pizza</th>
-                <th class="col-small">Dimensione</th>                
-                <th class="col-small">Quantita</th>
-                <th class="col-small">Prezzo</th>      
-                <th class="col-small">Prezzo TOT</th>                 
+                <th>Pizza</th>
+                <th>Dimensione</th>                
+                <th>Quantita</th>
+                <th>Prezzo</th>      
+                <th>Prezzo TOT</th>                 
             </tr>     
 
     <?foreach ($POs as $PO) {
@@ -33,11 +33,11 @@
             </tr>
     <? } ?>    
              <tr>
-                <th class="col-large">Fascia oraria</th> 
-                <th class="col-small">Domicilio</th>
-                <th class="col-small">Prezzo Domicilio</th>                
-                <th class="col-small">Prezzo Pizze</th>
-                <th class="col-small">Prezzo Totale</th>                     
+                <th>Fascia oraria</th> 
+                <th>Domicilio</th>
+                <th>Prezzo Domicilio</th>                
+                <th>Prezzo Pizze</th>
+                <th>Prezzo Totale</th>                     
             </tr>       
             <tr>
                 <td><?= OrdineFactory::instance()->getValoreOrario($ordine->getOrario()) ?></td>
