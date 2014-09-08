@@ -97,12 +97,12 @@
         <li>Ruolo Cliente:</li>
         <ul>
             <li>username: isadora</li>
-            <li>password: </li>
+            <li>password: amm</li>
         </ul>
         <li>Ruolo Addetto Ordini:</li>
         <ul>
             <li>username: addetto</li>
-            <li>password: </li>
+            <li>password: amm</li>
         </ul>
     </ul>
 </body>
