@@ -39,7 +39,7 @@
          <ul>
             <li>Visualizzare e modificare il suo indirizzo o la password</li>
             <li>Eseguire un nuovo ordine</li>
-            <li>Visualizzare l'elenco di tutti gli ordini fatti in passato</li>
+            <li>Visualizzare l'elenco di tutti gli ordini richiesti in passato</li>
             <li>Visualizzare i contatti della pizzeria</li>       
         </ul> 
         <p>
@@ -52,7 +52,7 @@
             aver selezionato le pizze, la quantità e la fascia oraria in cui si desidera ritirare l'ordine viene visualizzata
             una schermata di riepilogo che comprende l'elenco delle pizze, l'orario di consegna e prezzo totale.
             L'orario di consegna, se in quello richiesto dall'utente non è possibile inserire quel determinato quantitativo di pizze
-            (sono presenti dei limiti di ordini per ogni fascia oraria), sarà impostato con quello piu vicino disponibile.
+            (sono presenti dei limiti di ordini per ogni fascia oraria), sarà impostato con quello disponibile piu vicino.
             A questo putno il cliente decide se accettare o cancellare l'ordine.
         </p>
         <p>
@@ -69,7 +69,7 @@
         </ul> 
          <p>
             Tramite la pagina "Gestione ordini" un addetto può visualizzare gli ordini del giorno che devono ancora essere ritirati/consegati
-            e pagati. Nel momento in cui questi vengono segnalati come pagati non vengono piu visualizzati in questo elenco mentre è possibile
+            e pagati. Nel momento in cui questi vengono segnalati come pagati non vengono piu visualizzati nel suddetto elenco mentre è possibile
             visualizzarli nella pagina "Ricerca ordini". Un ordine pagato registra l'ID dell'addetto che l'ha segnalato come pagato.
             In questa pagina è possibile ricercare qualsiasi ordine, qualunque sia il suo stato, tramite la scelta della data e dell'ora.
         </p>       
@@ -80,12 +80,12 @@
             <li>Utilizzo di PHP e MySQL</li>
             <li>Utilizzo del pattern MVC </li>
             <li>Due ruoli (cliente e addettoOrdini)</li>
-            <li>Transazione per il salvataggio(aggiornamento) di un nuovo ordine. Visibile all'interno della classe OrdineFactory.php metodo aggiornaOrdine</li>
+            <li>Transazione per il salvataggio(aggiornamento) di un nuovo ordine. Visibile all'interno della classe OrdineFactory.php metodi aggiornaOrdine e nuovoOrdine</li>
             <li>Caricamento ajax dei risultati della ricerca degli ordini da parte dell'addetto agli ordini</li>
 
         </ul>
         
-    <h2>Accesso al progetto (informazioni temporanee) </h2>
+    <h2>Accesso al progetto</h2>
     <p>
         Il codice clonabile del progetto si trova all'indirizzo <a href="php/login">https://github.com/IsadoraSanna/AMM2014</a>
     </p>
